@@ -1,13 +1,15 @@
 read_tcad_bin <- function(dir, file_name){
 
-  # Create structure for object returned to
+  # Create structure for object returned to user.
+  # Has two tables:
+  #  - data: the data from the bin file
+  #  - description: the variable descriptions from the dbd.
   object <- list()
 
   # Get file strings for the bin file as well as the DCB file.
   base_file_name <- gsub(".bin", "", file_name)
   bin_file <- file.path(dir, file_name)
   dcb_file <- file.path(dir, paste(base_file_name, "DCB", sep = "."))
-
 
   # Read binary file attributes from DCB file
   dcb <- read_dcb(dcb_file)
@@ -16,7 +18,11 @@ read_tcad_bin <- function(dir, file_name){
     description = dcb$description
   )
 
-  # Read each attribute in DCB from a binary file.
+  # Read each attribute in DCB from binary file.
+
+
+
+  return(object)
 }
 
 
