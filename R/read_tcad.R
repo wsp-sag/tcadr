@@ -19,6 +19,10 @@ read_tcad_bin <- function(dir, file_name){
   dcb_file <- file.path(dir, paste(base_file_name, "DCB", sep = "."))
 
   # Read binary file attributes from DCB file
+
+  # row 2 has byte length of row
+  row_length <- as.numeric(readLines(dcb_file, 2))[2]
+
   dcb <- read_dcb(dcb_file)
   object[["description"]] <- data.frame(
     name = dcb$name,
@@ -26,6 +30,8 @@ read_tcad_bin <- function(dir, file_name){
   )
 
   # Read each attribute in DCB from binary file.
+  get_df_from_binary(bin_file, dcb$name, dcb$type,
+                     1:5, 1:5, row_length )
 
 
   return(object)
@@ -44,8 +50,6 @@ read_tcad_bin <- function(dir, file_name){
 #' @return A \code{data_frame} of the attributes including type, description,
 #' and layout of the rows in the binary data.
 read_dcb <- function(dcb_file){
-  # The first line is empty, and the second says how long the records are
-  row_length <- as.numeric(readLines(dcb_file, 2))[2]
 
   # afterwards, the dcb file is just a csv file with the attributes
   dcb <- read.csv(

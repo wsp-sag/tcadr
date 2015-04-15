@@ -7,8 +7,9 @@
 read_dcb(dcb_file)
 }
 \arguments{
-\item{dcb_file}{A TransCAD dictionary file containing information on the
-layout of the binary data file and its attribute properties.}
+\item{dcb_file}{A character string location of a TransCAD dictionary file
+containing information on the layout of the binary data file and its
+attribute properties.}
 }
 \value{
 A \code{data_frame} of the attributes including type, description,
