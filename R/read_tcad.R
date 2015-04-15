@@ -14,9 +14,6 @@
 #'
 read_tcad_bin <- function(dir, file_name, df_only = TRUE){
 
-  # Create structure for object returned to user.
-  dir <- "data"
-  file_name <- "TransitR.bin"
 
   # Get file strings for the bin file as well as the DCB file.
   base_file_name <- gsub(".bin", "", file_name)

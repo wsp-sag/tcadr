@@ -4,17 +4,21 @@
 \alias{read_tcad_bin}
 \title{Read a TransCAD binary file}
 \usage{
-read_tcad_bin(dir, file_name)
+read_tcad_bin(dir, file_name, df_only = TRUE)
 }
 \arguments{
 \item{dir}{The path to the directory where the files are located}
 
 \item{file_name}{The name of the binary file, e.g. \code{foo.bin}}
+
+\item{df_only}{Should the function return a `data.frame` or a list with
+the descriptions appended? \code{default = TRUE}}
 }
 \value{
-A list with two elements: \code{description} contains any data labels
-on the dictionary file; \code{data} is a \code{tbl_df(data_frame)} object with
-the table.
+If \code{df_only = TRUE}, a \code{tbl_df(data.frame)} object
+implementation of the TransCAD data table. If \code{FALSE},
+a list with two elements: \code{description} contains any data labels
+on the dictionary file; \code{df} is the data frame.
 }
 \description{
 Read a TransCAD \code{.bin} binary data file into the workspace.
