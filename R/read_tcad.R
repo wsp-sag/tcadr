@@ -4,16 +4,19 @@
 #'
 #' @param dir The path to the directory where the files are located
 #' @param file_name The name of the binary file, e.g. \code{foo.bin}
+#' @param df_only Should the function return a `data.frame` or a list with
+#' the descriptions appended? \code{default = TRUE}
 #'
-#' @return A list with two elements: \code{description} contains any data labels
-#' on the dictionary file; \code{data} is a \code{tbl_df(data_frame)} object with
-#' the table.
-read_tcad_bin <- function(dir, file_name){
+#' @return If \code{df_only = TRUE}, a \code{tbl_df(data.frame)} object
+#' implementation of the TransCAD data table. If \code{FALSE},
+#' a list with two elements: \code{description} contains any data labels
+#' on the dictionary file; \code{df} is the data frame.
+#'
+read_tcad_bin <- function(dir, file_name, df_only = TRUE){
 
   # Create structure for object returned to user.
   dir <- "data"
   file_name <- "TransitR.bin"
-  object <- list()
 
   # Get file strings for the bin file as well as the DCB file.
   base_file_name <- gsub(".bin", "", file_name)
@@ -21,15 +24,9 @@ read_tcad_bin <- function(dir, file_name){
   dcb_file <- file.path(dir, paste(base_file_name, "DCB", sep = "."))
 
   # Read binary file attributes from DCB file
-
-  # row 2 has byte length of row
-  row_length <- as.numeric(readLines(dcb_file, 2))[2]
-
+  row_length <- as.numeric(readLines(dcb_file, 2))[2] # row 2 has byte length
   dcb <- read_dcb(dcb_file)
-  object[["description"]] <- data.frame(
-    name = dcb$name,
-    description = dcb$description
-  )
+
 
   # Read each attribute in DCB from binary file.
   df <- dplyr::tbl_df(as.data.frame(
@@ -40,9 +37,22 @@ read_tcad_bin <- function(dir, file_name){
     )
 
   # strip white space from character strings
-
   character_vars <- names(df)[sapply(df, is.character)]
   df <- dplyr::mutate_each_(df, dplyr::funs(trim), character_vars)
+
+
+  if(df_only){
+    return(df)
+  } else {
+    object <- list()
+
+    object[["description"]] <- data.frame(
+      name = dcb$name,
+      description = dcb$description
+    )
+
+    object[["df"]] <- df
+  }
 
   return(object)
 }
@@ -77,5 +87,3 @@ read_dcb <- function(dcb_file){
 }
 
 trim <- function (x) gsub("^\\s+|\\s+$", "", x)
-
-
