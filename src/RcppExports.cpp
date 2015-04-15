@@ -21,9 +21,10 @@ BEGIN_RCPP
 END_RCPP
 }
 // get_df_from_binary
-void get_df_from_binary(String bin_file, CharacterVector name, CharacterVector type, NumericVector start, NumericVector width, int row_length);
+List get_df_from_binary(String bin_file, CharacterVector name, CharacterVector type, NumericVector start, NumericVector width, int row_length);
 RcppExport SEXP tcadr_get_df_from_binary(SEXP bin_fileSEXP, SEXP nameSEXP, SEXP typeSEXP, SEXP startSEXP, SEXP widthSEXP, SEXP row_lengthSEXP) {
 BEGIN_RCPP
+    SEXP __sexp_result;
     {
         Rcpp::RNGScope __rngScope;
         Rcpp::traits::input_parameter< String >::type bin_file(bin_fileSEXP );
@@ -32,8 +33,10 @@ BEGIN_RCPP
         Rcpp::traits::input_parameter< NumericVector >::type start(startSEXP );
         Rcpp::traits::input_parameter< NumericVector >::type width(widthSEXP );
         Rcpp::traits::input_parameter< int >::type row_length(row_lengthSEXP );
-        get_df_from_binary(bin_file, name, type, start, width, row_length);
+        List __result = get_df_from_binary(bin_file, name, type, start, width, row_length);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
-    return R_NilValue;
+    UNPROTECT(1);
+    return __sexp_result;
 END_RCPP
 }
