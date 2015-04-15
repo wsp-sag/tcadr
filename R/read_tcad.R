@@ -11,6 +11,8 @@
 read_tcad_bin <- function(dir, file_name){
 
   # Create structure for object returned to user.
+  dir <- "data"
+  file_name <- "TransitR.bin"
   object <- list()
 
   # Get file strings for the bin file as well as the DCB file.
@@ -30,8 +32,7 @@ read_tcad_bin <- function(dir, file_name){
   )
 
   # Read each attribute in DCB from binary file.
-  get_df_from_binary(bin_file, dcb$name, dcb$type,
-                     1:5, 1:5, row_length )
+  df <- tbl_df(as.data.frame(get_df_from_binary(bin_file, dcb$name, dcb$type, 1:5, 1:5, row_length )))
 
 
   return(object)
