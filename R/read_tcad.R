@@ -39,6 +39,10 @@ read_tcad_bin <- function(dir, file_name){
     stringsAsFactors = FALSE)
     )
 
+  # strip white space from character strings
+
+  character_vars <- names(df)[sapply(df, is.character)]
+  df <- dplyr::mutate_each_(df, dplyr::funs(trim), character_vars)
 
   return(object)
 }
@@ -71,3 +75,7 @@ read_dcb <- function(dcb_file){
 
   dcb
 }
+
+trim <- function (x) gsub("^\\s+|\\s+$", "", x)
+
+
