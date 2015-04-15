@@ -12,9 +12,6 @@
 read_tcad_bin <- function(dir, file_name){
 
   # Create structure for object returned to user.
-  # Has two tables:
-  #  - data: the data from the bin file
-  #  - description: the variable descriptions from the dbd.
   object <- list()
 
   # Get file strings for the bin file as well as the DCB file.
