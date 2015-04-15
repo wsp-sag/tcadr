@@ -36,9 +36,9 @@ List get_df_from_binary(
 
   // Loop through fields
   for (int i = 0; i < n_fields; i++){
-    Rcout << "field name:  " << name[i] << endl;
-    Rcout << "field type:  " << type[i] << endl;
-    Rcout << "field width: " << width[i] << endl;
+    Rcout << "field name, type, width:  " << name[i];
+    Rcout << type[i];
+    Rcout << width[i] << endl;
 
     //Integer fields
     if(type[i] == "I"){
@@ -52,6 +52,9 @@ List get_df_from_binary(
         bf.seekg(line_pos, ios::beg);
 
         bf.read((char*)&current_vec[j], 4);
+        if(current_vec[j] == long_miss){
+          current_vec[j] = NA_INTEGER;
+        }
       }
       my_list[i] = current_vec;
 
@@ -67,9 +70,19 @@ List get_df_from_binary(
         bf.seekg(line_pos, ios::beg);
 
         bf.read((char*)&current_vec[j], 2);
+        if(current_vec[j] == short_miss){
+          current_vec[j] = NA_INTEGER;
+        }
       }
       my_list[i] = current_vec;
 
+    } else {
+      my_list[i] = CharacterVector (n_rows, "a");
+
+    }
+  }
+
+  /*
     // Real fields (double)
     } else if(type[i] == "R"){
       NumericVector current_vec(n_rows);
@@ -125,7 +138,7 @@ List get_df_from_binary(
   }
 
   //Rcout << bin_file;
-
+  */
   //Close file
   bf.close();
 
