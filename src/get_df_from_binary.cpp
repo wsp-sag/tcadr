@@ -28,7 +28,7 @@ List get_df_from_binary(
 
   // Open the binary data file and make sure it exists
   std::fstream bf;
-  bf.open(bin_file, ios::in | ios::binary | ios::ate);
+  bf.open(bin_file.get_cstring(), ios::in | ios::binary | ios::ate);
   if(!bf.is_open()){
     throw std::range_error("could not open binary file");
   }
