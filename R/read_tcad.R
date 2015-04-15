@@ -1,3 +1,14 @@
+#' @title Read a TransCAD binary file
+#'
+#' @description This function reads a TransCAD \code{.bin} binary data file that
+#' is defined by a \code{.dcb} dictionary file.
+#'
+#' @param dir The path to the directory where the files are located
+#' @param file_name The name of the binary file, e.g. \code{foo.bin}
+#' 
+#' @return A list with two elements: \code{description} contains any data labels 
+#' on the dictionary file; \code{data} is a \code{tbl_df(data_frame)} object with
+#' the table.
 read_tcad_bin <- function(dir, file_name){
 
   # Create structure for object returned to user.
