@@ -22,6 +22,7 @@ List get_df_from_binary(
   int line_pos;
   int n_rows;
   int file_size;
+  char* memblock ;
   List my_list(n_fields);
   my_list.attr("names") = name;
 
@@ -36,9 +37,6 @@ List get_df_from_binary(
 
   // Loop through fields
   for (int i = 0; i < n_fields; i++){
-    Rcout << "field name, type, width:  " << name[i];
-    Rcout << type[i];
-    Rcout << width[i] << endl;
 
     //Integer fields
     if(type[i] == "I"){
@@ -46,7 +44,6 @@ List get_df_from_binary(
 
       // Loop over rows in data
       for (int j = 0; j < n_rows; j++){
-
         // where do we read from?
         line_pos = j * row_length + start[i] - 1;
         bf.seekg(line_pos, ios::beg);
@@ -62,10 +59,7 @@ List get_df_from_binary(
     } else if(type[i] == "S"){
       IntegerVector current_vec(n_rows);
 
-      // Loop over rows in data
       for (int j = 0; j < n_rows; j++){
-
-        // where do we read from?
         line_pos = j * row_length + start[i] - 1;
         bf.seekg(line_pos, ios::beg);
 
@@ -76,21 +70,11 @@ List get_df_from_binary(
       }
       my_list[i] = current_vec;
 
-    } else {
-      my_list[i] = CharacterVector (n_rows, "a");
-
-    }
-  }
-
-  /*
     // Real fields (double)
     } else if(type[i] == "R"){
       NumericVector current_vec(n_rows);
 
-      // Loop over rows in data
       for (int j = 0; j < n_rows; j++){
-
-        // where do we read from?
         line_pos = j * row_length + start[i] - 1;
         bf.seekg(line_pos, ios::beg);
 
@@ -105,40 +89,45 @@ List get_df_from_binary(
     } else if(type[i] == "F"){
       NumericVector current_vec(n_rows);
 
-      // Loop over rows in data
       for (int j = 0; j < n_rows; j++){
-
-        // where do we read from?
         line_pos = j * row_length + start[i] - 1;
         bf.seekg(line_pos, ios::beg);
 
         bf.read((char*)&current_vec[j], 2);
-        if(current_vec[j] == dbl_miss){
+        if(current_vec[j] == flt_miss){
           current_vec[j] = NA_REAL;
         }
       }
       my_list[i] = current_vec;
 
     // Character fields
-    } else {
+    } else if(type[i] == "C") {
       CharacterVector current_vec(n_rows);
 
       // Loop over rows in data
       for (int j = 0; j < n_rows; j++){
         // where do we read from?
+
+        memblock = new char [100];
+        // clear previous values
+        for(int s= 0; s < 100 ; s++){
+          memblock[s] = '\0';
+        }
+
         line_pos = j * row_length + start[i] - 1;
         bf.seekg(line_pos, ios::beg);
 
-        bf.read(current_vec[j], width[i]*3);
+        bf.read(memblock, width[i]);
+        current_vec[j] = memblock;
       }
-
       my_list[i] = current_vec;
-    }
 
+    } else {
+      my_list[i] = CharacterVector (n_rows, NA_STRING);
+    }
   }
 
-  //Rcout << bin_file;
-  */
+
   //Close file
   bf.close();
 
