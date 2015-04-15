@@ -13,4 +13,4 @@ Description: Caliper's TransCAD application and GISDK language are widely used
 License: What license is it under?
 LazyData: TRUE
 LinkingTo: Rcpp
-Imports: Rcpp
+Imports: Rcpp, dplyr
