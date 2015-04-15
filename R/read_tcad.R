@@ -1,12 +1,11 @@
 #' @title Read a TransCAD binary file
 #'
-#' @description This function reads a TransCAD \code{.bin} binary data file that
-#' is defined by a \code{.dcb} dictionary file.
+#' @description Read a TransCAD \code{.bin} binary data file into the workspace.
 #'
 #' @param dir The path to the directory where the files are located
 #' @param file_name The name of the binary file, e.g. \code{foo.bin}
-#' 
-#' @return A list with two elements: \code{description} contains any data labels 
+#'
+#' @return A list with two elements: \code{description} contains any data labels
 #' on the dictionary file; \code{data} is a \code{tbl_df(data_frame)} object with
 #' the table.
 read_tcad_bin <- function(dir, file_name){
@@ -29,11 +28,21 @@ read_tcad_bin <- function(dir, file_name){
   # Read each attribute in DCB from binary file.
 
 
-
   return(object)
 }
 
 
+#' @title Read the TransCAD dictionary file
+#'
+#' @description Read the TransCAD \code{.DCB} dictionary file. This is a helper
+#' function and is not normally called by the user directly.
+#'
+#' @param dcb_file A character string location of a TransCAD dictionary file
+#' containing information on the layout of the binary data file and its
+#' attribute properties.
+#'
+#' @return A \code{data_frame} of the attributes including type, description,
+#' and layout of the rows in the binary data.
 read_dcb <- function(dcb_file){
   # The first line is empty, and the second says how long the records are
   row_length <- as.numeric(readLines(dcb_file, 2))[2]

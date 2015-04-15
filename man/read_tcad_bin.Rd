@@ -17,7 +17,6 @@ on the dictionary file; \code{data} is a \code{tbl_df(data_frame)} object with
 the table.
 }
 \description{
-This function reads a TransCAD \code{.bin} binary data file that
-is defined by a \code{.dcb} dictionary file.
+Read a TransCAD \code{.bin} binary data file into the workspace.
 }
 
