@@ -75,10 +75,12 @@ read_dcb <- function(dcb_file){
     skip = 2,
     header = FALSE)
 
-  names(dcb) <- c(
-    "name", "type", "start", "width", "decimals", "d_width", "d_decimals",
-    "format", "agg_method", "description", "default", "split_method", "d_name"
+  # TransCAD can have up to the following items.
+  dcb_names <- c(
+    "name", "type", "start", "width", "decimals", "d_width", "d_decimals", "format",
+    "agg_method", "description", "default", "split_method", "d_name"
   )
+  names(dcb) <- dcb_names[1:length(names(dcb))]
 
   dcb
 }
