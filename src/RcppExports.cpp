@@ -9,19 +9,15 @@ using namespace Rcpp;
 List get_df_from_binary(String bin_file, CharacterVector name, CharacterVector type, NumericVector start, NumericVector width, int row_length);
 RcppExport SEXP tcadr_get_df_from_binary(SEXP bin_fileSEXP, SEXP nameSEXP, SEXP typeSEXP, SEXP startSEXP, SEXP widthSEXP, SEXP row_lengthSEXP) {
 BEGIN_RCPP
-    SEXP __sexp_result;
-    {
-        Rcpp::RNGScope __rngScope;
-        Rcpp::traits::input_parameter< String >::type bin_file(bin_fileSEXP );
-        Rcpp::traits::input_parameter< CharacterVector >::type name(nameSEXP );
-        Rcpp::traits::input_parameter< CharacterVector >::type type(typeSEXP );
-        Rcpp::traits::input_parameter< NumericVector >::type start(startSEXP );
-        Rcpp::traits::input_parameter< NumericVector >::type width(widthSEXP );
-        Rcpp::traits::input_parameter< int >::type row_length(row_lengthSEXP );
-        List __result = get_df_from_binary(bin_file, name, type, start, width, row_length);
-        PROTECT(__sexp_result = Rcpp::wrap(__result));
-    }
-    UNPROTECT(1);
-    return __sexp_result;
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< String >::type bin_file(bin_fileSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type name(nameSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type type(typeSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type start(startSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type width(widthSEXP);
+    Rcpp::traits::input_parameter< int >::type row_length(row_lengthSEXP);
+    __result = Rcpp::wrap(get_df_from_binary(bin_file, name, type, start, width, row_length));
+    return __result;
 END_RCPP
 }
