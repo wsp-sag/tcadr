@@ -4,12 +4,11 @@
 \alias{read_tcad_bin}
 \title{Read a TransCAD binary file}
 \usage{
-read_tcad_bin(dir, file_name, df_only = TRUE)
+read_tcad_bin(file, df_only = TRUE)
 }
 \arguments{
-\item{dir}{The path to the directory where the files are located}
-
-\item{file_name}{The name of the binary file, e.g. \code{foo.bin}}
+\item{file}{The path and name of the binary data file, e.g. \code{data/foo.bin}.
+The \code{DCB} dictionary file should be in the same folder.}
 
 \item{df_only}{Should the function return a `data.frame` or a list with
 the descriptions appended? \code{default = TRUE}}
