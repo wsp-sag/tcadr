@@ -7,19 +7,25 @@
 read_tcad_bin(file, df_only = TRUE)
 }
 \arguments{
-\item{file}{The path and name of the binary data file, e.g. \code{data/foo.bin}.
-The \code{DCB} dictionary file should be in the same folder.}
+\item{file}{The path and name of the binary data file, e.g.
+\code{data/foo.bin}. The \code{DCB} dictionary file should be in the same
+folder.}
 
 \item{df_only}{Should the function return a `data.frame` or a list with
 the descriptions appended? \code{default = TRUE}}
 }
 \value{
 If \code{df_only = TRUE}, a \code{tbl_df(data.frame)} object
-implementation of the TransCAD data table. If \code{FALSE},
-a list with two elements: \code{description} contains any data labels
-on the dictionary file; \code{df} is the data frame.
+  implementation of the TransCAD data table. If \code{FALSE}, a list with two
+  elements: \code{description} contains any data labels on the dictionary
+  file; \code{df} is the data frame.
 }
 \description{
 Read a TransCAD \code{.bin} binary data file into the workspace.
+}
+\details{
+If any variable descriptions are available in the dictionary file,
+  then they will be appended to the \code{attr(*, "label")} attribute (and
+  therefore visible in RStudio).
 }
 

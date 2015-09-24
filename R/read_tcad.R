@@ -2,15 +2,20 @@
 #'
 #' @description Read a TransCAD \code{.bin} binary data file into the workspace.
 #'
-#' @param file The path and name of the binary data file, e.g. \code{data/foo.bin}. 
-#'   The \code{DCB} dictionary file should be in the same folder.
+#' @param file The path and name of the binary data file, e.g.
+#'   \code{data/foo.bin}. The \code{DCB} dictionary file should be in the same
+#'   folder.
 #' @param df_only Should the function return a `data.frame` or a list with
 #' the descriptions appended? \code{default = TRUE}
+#' 
+#' @details If any variable descriptions are available in the dictionary file, 
+#'   then they will be appended to the \code{attr(*, "label")} attribute (and 
+#'   therefore visible in RStudio).
 #'
-#' @return If \code{df_only = TRUE}, a \code{tbl_df(data.frame)} object
-#' implementation of the TransCAD data table. If \code{FALSE},
-#' a list with two elements: \code{description} contains any data labels
-#' on the dictionary file; \code{df} is the data frame.
+#' @return If \code{df_only = TRUE}, a \code{tbl_df(data.frame)} object 
+#'   implementation of the TransCAD data table. If \code{FALSE}, a list with two
+#'   elements: \code{description} contains any data labels on the dictionary
+#'   file; \code{df} is the data frame.
 #'
 read_tcad_bin <- function(file, df_only = TRUE){
 
@@ -25,7 +30,6 @@ read_tcad_bin <- function(file, df_only = TRUE){
 
   dcb <- read_dcb(dcb_file)
 
-
   # Read each attribute in DCB from binary file.
   df <- dplyr::tbl_df(as.data.frame(
     get_df_from_binary(file, dcb$name, dcb$type,
@@ -37,6 +41,12 @@ read_tcad_bin <- function(file, df_only = TRUE){
   # strip white space from character strings
   character_vars <- names(df)[sapply(df, is.character)]
   df <- dplyr::mutate_each_(df, dplyr::funs(trim), character_vars)
+  
+  # add labels to data frame if they exist.
+  if(any(!is.na(dcb$description))){
+    for (i in seq_along(df))  
+      data.table::setattr(df[[i]], name = 'label', value = dcb$description[i])
+  }
 
 
   if(df_only){
