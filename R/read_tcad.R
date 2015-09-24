@@ -25,7 +25,7 @@ read_tcad_bin <- function(file, df_only = TRUE){
 
   # Read binary file attributes from DCB file
   row_length <- as.numeric(
-    unlist(strsplit((readLines(dcb_file, 2))[2], " "))[1]
+    as.numeric(gsub("[^0-9]", "", readLines(dcb_file, 2)[2]))
   )
 
   dcb <- read_dcb(dcb_file)
