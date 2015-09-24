@@ -10,7 +10,7 @@ Authors@R: c(
 Description: Caliper's TransCAD application and GISDK language are widely used
     in travel demand modeling applications. However, it can be difficult to conduct
     complex analyses with these tools, because the file formats are unique and/or
-    standard. This package contains helper scripts to read TransCAD files for use
+    non-standard. This package contains helper scripts to read TransCAD files for use
     in R.
 License: MIT + file LICENSE
 LazyData: TRUE
