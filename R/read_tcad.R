@@ -35,7 +35,8 @@ read_tcad_bin <- function(file, df_only = TRUE){
 
   # Read each attribute in DCB from binary file.
   df <- dplyr::tbl_df(as.data.frame(
-    get_df_from_binary(file, dcb$name, dcb$type,
+    get_df_from_binary(path.expand(file), 
+                       dcb$name, dcb$type,
                        dcb$start, dcb$width,
                        row_length),
     stringsAsFactors = FALSE)
