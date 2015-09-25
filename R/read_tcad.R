@@ -99,4 +99,9 @@ read_dcb <- function(dcb_file){
   dcb
 }
 
+#' Trim all duplicate spaces from a character string.
+#' 
+#' @param x a character string.
+#' @return a character string with extraneous spaces removed.
+#' 
 trim <- function (x) gsub("^\\s+|\\s+$", "", x)

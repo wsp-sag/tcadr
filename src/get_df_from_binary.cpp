@@ -15,12 +15,13 @@ using namespace std;
 //' This is a C++ implementation written by Amar Sarvepalli and adapted for Rcpp
 //' by Greg Macfarlane.
 //' 
-//' @param str bin_file string with the path to the .bin file.
-//' @param CharacterVector name name of each variable.
-//' @param CharacterVector type the information type for each variable.
-//' @param NumericVector start the number of bytes in which the variable starts.
-//' @param NumericVector end the number of bytes in which the variable ends.
-//' @param int row_length the number of bytes in a row.
+//' @param bin_file string with the path to the .bin file.
+//' @param name character vector of each variable.
+//' @param type CharacterVector with the information type for each variable.
+//' @param start NumericVector with the number of bytes in which the variable
+//'   starts.
+//' @param width NumericVector with the number of bytes given for a variable.
+//' @param row_length int showing the number of bytes in a row.
 //' 
 //' @details All input parameter values are available in the \code{.DCB} file 
 //'   read by \link{read_dcb}. This is an internal function and should not
