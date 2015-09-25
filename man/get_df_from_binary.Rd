@@ -7,17 +7,18 @@
 get_df_from_binary(bin_file, name, type, start, width, row_length)
 }
 \arguments{
-\item{str}{bin_file string with the path to the .bin file.}
+\item{bin_file}{string with the path to the .bin file.}
 
-\item{CharacterVector}{name name of each variable.}
+\item{name}{character vector of each variable.}
 
-\item{CharacterVector}{type the information type for each variable.}
+\item{type}{CharacterVector with the information type for each variable.}
 
-\item{NumericVector}{start the number of bytes in which the variable starts.}
+\item{start}{NumericVector with the number of bytes in which the variable
+starts.}
 
-\item{NumericVector}{end the number of bytes in which the variable ends.}
+\item{width}{NumericVector with the number of bytes given for a variable.}
 
-\item{int}{row_length the number of bytes in a row.}
+\item{row_length}{int showing the number of bytes in a row.}
 }
 \value{
 characters in each element of the vector
