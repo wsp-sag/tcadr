@@ -10,7 +10,7 @@ Installation
 --------------
 The package is not (yet) on CRAN. The easiest way to install it is with
 
-    devtools::install_github("gregmacfarlane/tcadr")
+    devtools::install_github("pbsag/tcadr")
     
 Using the [devtools](https://github.com/hadley/devtools) library will require you
 to install RTools and Rccp, among other things. RStudio should make this mostly
