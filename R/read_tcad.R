@@ -2,35 +2,40 @@
 #'
 #' @description Read a TransCAD \code{.bin} binary data file into the workspace.
 #'
-#' @param dir The path to the directory where the files are located
-#' @param file_name The name of the binary file, e.g. \code{foo.bin}
+#' @param file The path and name of the binary data file, e.g.
+#'   \code{data/foo.bin}. The \code{DCB} dictionary file should be in the same
+#'   folder.
 #' @param df_only Should the function return a `data.frame` or a list with
 #' the descriptions appended? \code{default = TRUE}
+#' 
+#' @details If any variable descriptions are available in the dictionary file, 
+#'   then they will be appended to the \code{attr(*, "label")} attribute (and 
+#'   therefore visible in RStudio).
 #'
-#' @return If \code{df_only = TRUE}, a \code{tbl_df(data.frame)} object
-#' implementation of the TransCAD data table. If \code{FALSE},
-#' a list with two elements: \code{description} contains any data labels
-#' on the dictionary file; \code{df} is the data frame.
+#' @return If \code{df_only = TRUE}, a \code{tbl_df(data.frame)} object 
+#'   implementation of the TransCAD data table. If \code{FALSE}, a list with two
+#'   elements: \code{description} contains any data labels on the dictionary
+#'   file; \code{df} is the data frame.
 #'
-read_tcad_bin <- function(dir, file_name, df_only = TRUE){
+#' @importFrom data.table setattr
+#' @importFrom dplyr data_frame mutate_each_ tbl_df
+#'
+read_tcad_bin <- function(file, df_only = TRUE){
 
 
-  # Get file strings for the bin file as well as the DCB file.
-  base_file_name <- gsub(".bin", "", file_name)
-  bin_file <- file.path(dir, file_name)
-  dcb_file <- file.path(dir, paste(base_file_name, "DCB", sep = "."))
+  # Get file string for the DCB file.
+  dcb_file <- gsub(".bin", ".DCB", file)
 
   # Read binary file attributes from DCB file
   row_length <- as.numeric(
-    unlist(strsplit((readLines(dcb_file, 2))[2], " "))[1]
+    as.numeric(gsub("[^0-9]", "", readLines(dcb_file, 2)[2]))
   )
 
   dcb <- read_dcb(dcb_file)
 
-
   # Read each attribute in DCB from binary file.
   df <- dplyr::tbl_df(as.data.frame(
-    get_df_from_binary(bin_file, dcb$name, dcb$type,
+    get_df_from_binary(file, dcb$name, dcb$type,
                        dcb$start, dcb$width,
                        row_length),
     stringsAsFactors = FALSE)
@@ -39,6 +44,12 @@ read_tcad_bin <- function(dir, file_name, df_only = TRUE){
   # strip white space from character strings
   character_vars <- names(df)[sapply(df, is.character)]
   df <- dplyr::mutate_each_(df, dplyr::funs(trim), character_vars)
+  
+  # add labels to data frame if they exist.
+  if(any(!is.na(dcb$description))){
+    for (i in seq_along(df))  
+      data.table::setattr(df[[i]], name = 'label', value = dcb$description[i])
+  }
 
 
   if(df_only){
@@ -88,4 +99,9 @@ read_dcb <- function(dcb_file){
   dcb
 }
 
+#' Trim all duplicate spaces from a character string.
+#' 
+#' @param x a character string.
+#' @return a character string with extraneous spaces removed.
+#' 
 trim <- function (x) gsub("^\\s+|\\s+$", "", x)
