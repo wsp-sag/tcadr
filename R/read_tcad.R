@@ -17,6 +17,9 @@
 #'   elements: \code{description} contains any data labels on the dictionary
 #'   file; \code{df} is the data frame.
 #'
+#' @importFrom data.table setattr
+#' @importFrom dplyr data_frame mutate_each_ tbl_df
+#'
 read_tcad_bin <- function(file, df_only = TRUE){
 
 
@@ -96,4 +99,9 @@ read_dcb <- function(dcb_file){
   dcb
 }
 
+#' Trim all duplicate spaces from a character string.
+#' 
+#' @param x a character string.
+#' @return a character string with extraneous spaces removed.
+#' 
 trim <- function (x) gsub("^\\s+|\\s+$", "", x)
