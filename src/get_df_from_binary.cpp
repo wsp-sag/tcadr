@@ -10,6 +10,24 @@ using namespace std;
 #define flt_miss   -3.402823466e+38F
 #define dbl_miss   -1.7976931348623158e+308
 
+//' Scan a binary TransCAD File
+//' 
+//' This is a C++ implementation written by Amar Sarvepalli and adapted for Rcpp
+//' by Greg Macfarlane.
+//' 
+//' @param str bin_file string with the path to the .bin file.
+//' @param CharacterVector name name of each variable.
+//' @param CharacterVector type the information type for each variable.
+//' @param NumericVector start the number of bytes in which the variable starts.
+//' @param NumericVector end the number of bytes in which the variable ends.
+//' @param int row_length the number of bytes in a row.
+//' 
+//' @details All input parameter values are available in the \code{.DCB} file 
+//'   read by \link{read_dcb}. This is an internal function and should not
+//'   normally be used independent of \link{read_tcad_bin}.
+//' 
+//' @return characters in each element of the vector
+//' 
 // [[Rcpp::export]]
 List get_df_from_binary(
     String bin_file,
