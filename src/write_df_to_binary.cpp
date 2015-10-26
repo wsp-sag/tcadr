@@ -1,10 +1,11 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
-//' @author Amar Sarvepalli
-//' @param  List or DataFrame object
-//' @return int columns
-//' To get number of dataframe columns
+//' @title get columns
+//' @name getColumns
+//' @details To get number of dataframe columns
+//' @param df DataFrame object
+//' @return ncols number of columns
 //'
 // [[Rcpp::export]]
 int getColumns(List df){
@@ -13,7 +14,11 @@ int getColumns(List df){
   return ncols;
 }
 
-//' To get number of dataframe rows
+//' @title get rows
+//' @name getRows
+//' @details To get number of dataframe rows
+//' @param df DataFrame object
+//' @return nrows number of rows
 //'
 // [[Rcpp::export]]
 int getRows(List df){
@@ -23,7 +28,11 @@ int getRows(List df){
   return nrows;
 }
 
-//' To get number of dataframe dimensions
+//' @title get dimensions
+//' @name getDims
+//' @param df DataFrame object
+//' @details To get number of dataframe dimensions
+//' @return nrowcol array of rows and columns (r x c)
 //'
 // [[Rcpp::export]]
 NumericVector getDims(List df){
@@ -33,7 +42,11 @@ NumericVector getDims(List df){
   return nrowcol;
 }
 
-//' Method to extract dataframe column names
+//' @title get field names
+//' @name getNames
+//' @param df DataFrame object
+//' @details Method to extract dataframe column names
+//' @return names field names
 //'
 // [[Rcpp::export]]
 CharacterVector getNames(List df){
@@ -41,8 +54,11 @@ CharacterVector getNames(List df){
   return names;
 }
 
-
-//' Method to get column width
+//' @title get field width
+//' @name get_width
+//' @details Method to get column width
+//' @param s character field
+//' @return element_width width of the column
 //'
 // [[Rcpp::export]]
 int get_width(const std::string& s)
@@ -51,7 +67,13 @@ int get_width(const std::string& s)
     return element_width = s.end() - s.begin();
 }
 
-//' Split string (splits line by ",")
+//' @title parse line by comma deliminated
+//' @name name_split
+//' @details splits line by ","
+//' @param line string line separated by delimiter
+//' @param delim delimter can be anything
+//' @return fields elements of string line
+//'
 // [[Rcpp::export]]
 std::vector<std::string> name_split(const std::string line, char delim){
     std::string word;
@@ -63,10 +85,13 @@ std::vector<std::string> name_split(const std::string line, char delim){
     return(fields);
 }
 
-
-//' writes dcb info
-//' @param List of field info
-//' @param String filename
+//' @title write dictionary file
+//' @name write_dcb
+//' @param df DataFrame object
+//' @param file_name name of the file
+//' @details internal function dcb info 
+//' @details doesn't return anything
+//'
 // [[Rcpp::export]]
 void write_dcb(List df, String file_name){
 
@@ -115,16 +140,18 @@ void write_dcb(List df, String file_name){
     fclose(pFile);
 }
 
-//'  Method to export data from dataframe to binary file
-//'  This exports only 3 datatypes: Character, Integer and Double
-//'  Writes the dcb file
-//'  @author Amar Sarvepalli
-//'  @param List or DataFrame
-//'  @param List datatypes
-//'  @date 10-22-2015
+//' @title write binary file
+//' @name write_df_to_binary
+//' @param df DataFrame object
+//' @param file_name output filename
+//' @param field_types datatypes
+//' @details Method to export data from dataframe to binary file. 
+//' @details This exports only 3 datatypes: Character, Integer and Double 
+//' @details Writes the *.dcb file along with *.bin file
+//' @return new_dcb_info_df prints dictionary file to console
 //'
 // [[Rcpp::export]]
-DataFrame write_binary(List df, String file_name, CharacterVector field_types){
+DataFrame write_df_to_binary(List df, String file_name, CharacterVector field_types){
 
   // Check if n fields match to ftypes
   if(df.size() != field_types.size()) stop("length of \"field types\" is not same as number of fields in the dataframe");
