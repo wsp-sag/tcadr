@@ -99,16 +99,16 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
-// write_binary
-DataFrame write_binary(List df, String file_name, CharacterVector field_types);
-RcppExport SEXP tcadr_write_binary(SEXP dfSEXP, SEXP file_nameSEXP, SEXP field_typesSEXP) {
+// write_df_to_binary
+DataFrame write_df_to_binary(List df, String file_name, CharacterVector field_types);
+RcppExport SEXP tcadr_write_df_to_binary(SEXP dfSEXP, SEXP file_nameSEXP, SEXP field_typesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
     Rcpp::traits::input_parameter< List >::type df(dfSEXP);
     Rcpp::traits::input_parameter< String >::type file_name(file_nameSEXP);
     Rcpp::traits::input_parameter< CharacterVector >::type field_types(field_typesSEXP);
-    __result = Rcpp::wrap(write_binary(df, file_name, field_types));
+    __result = Rcpp::wrap(write_df_to_binary(df, file_name, field_types));
     return __result;
 END_RCPP
 }
