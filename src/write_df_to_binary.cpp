@@ -1,5 +1,14 @@
+#include <string>
 #include <Rcpp.h>
+#include <iostream>
+#include <fstream>
 using namespace Rcpp;
+using namespace std;
+
+#define short_miss -32767
+#define long_miss  -2147483647
+#define flt_miss   -3.402823466e+38F
+#define dbl_miss   -1.7976931348623158e+30
 
 //' @author Amar Sarvepalli
 //' @param  List or DataFrame object
@@ -115,19 +124,29 @@ void write_dcb(List df, String file_name){
     fclose(pFile);
 }
 
-//'  Method to export data from dataframe to binary file
-//'  This exports only 3 datatypes: Character, Integer and Double
-//'  Writes the dcb file
-//'  @author Amar Sarvepalli
-//'  @param List or DataFrame
-//'  @param List datatypes
-//'  @date 10-22-2015
+//' Write a binary TransCAD file from an R data frame.
+//'
+//' This is a C++ implementation written by Amar Sarvepalli and adapted for
+//' Rcpp by Greg Macfarlane.
+//' @param df List of variables (or a \code{data.frame} that need to be
+//'   written).
+//' @param file_name A character string giving the output file name.
+//' @param field_types A character vector giving the data types of each column.
+//'
+//' @details Currently this function only exports only 3 datatypes: Character,
+//'   Integer and Double.
 //'
 // [[Rcpp::export]]
-DataFrame write_binary(List df, String file_name, CharacterVector field_types){
+void write_df_to_binary(
+  List df,
+  String file_name,
+  CharacterVector field_types){
 
   // Check if n fields match to ftypes
-  if(df.size() != field_types.size()) stop("length of \"field types\" is not same as number of fields in the dataframe");
+  if(df.size() != field_types.size()){
+    throw std::range_error( "length of \"field types\" is not same as number of fields in the dataframe");
+  }
+    
   NumericVector nrowcols = getDims(df);
   int nrows = nrowcols[0];
   int ncols= nrowcols[1];
@@ -227,4 +246,3 @@ DataFrame write_binary(List df, String file_name, CharacterVector field_types){
   fclose(pFile);
   return new_dcb_info_df;
 }
-
