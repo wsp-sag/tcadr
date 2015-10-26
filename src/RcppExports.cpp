@@ -21,3 +21,94 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// getColumns
+int getColumns(List df);
+RcppExport SEXP tcadr_getColumns(SEXP dfSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< List >::type df(dfSEXP);
+    __result = Rcpp::wrap(getColumns(df));
+    return __result;
+END_RCPP
+}
+// getRows
+int getRows(List df);
+RcppExport SEXP tcadr_getRows(SEXP dfSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< List >::type df(dfSEXP);
+    __result = Rcpp::wrap(getRows(df));
+    return __result;
+END_RCPP
+}
+// getDims
+NumericVector getDims(List df);
+RcppExport SEXP tcadr_getDims(SEXP dfSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< List >::type df(dfSEXP);
+    __result = Rcpp::wrap(getDims(df));
+    return __result;
+END_RCPP
+}
+// getNames
+CharacterVector getNames(List df);
+RcppExport SEXP tcadr_getNames(SEXP dfSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< List >::type df(dfSEXP);
+    __result = Rcpp::wrap(getNames(df));
+    return __result;
+END_RCPP
+}
+// get_width
+int get_width(const std::string& s);
+RcppExport SEXP tcadr_get_width(SEXP sSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< const std::string& >::type s(sSEXP);
+    __result = Rcpp::wrap(get_width(s));
+    return __result;
+END_RCPP
+}
+// name_split
+std::vector<std::string> name_split(const std::string line, char delim);
+RcppExport SEXP tcadr_name_split(SEXP lineSEXP, SEXP delimSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< const std::string >::type line(lineSEXP);
+    Rcpp::traits::input_parameter< char >::type delim(delimSEXP);
+    __result = Rcpp::wrap(name_split(line, delim));
+    return __result;
+END_RCPP
+}
+// write_dcb
+void write_dcb(List df, String file_name);
+RcppExport SEXP tcadr_write_dcb(SEXP dfSEXP, SEXP file_nameSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< List >::type df(dfSEXP);
+    Rcpp::traits::input_parameter< String >::type file_name(file_nameSEXP);
+    write_dcb(df, file_name);
+    return R_NilValue;
+END_RCPP
+}
+// write_binary
+DataFrame write_binary(List df, String file_name, CharacterVector field_types);
+RcppExport SEXP tcadr_write_binary(SEXP dfSEXP, SEXP file_nameSEXP, SEXP field_typesSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< List >::type df(dfSEXP);
+    Rcpp::traits::input_parameter< String >::type file_name(file_nameSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type field_types(field_typesSEXP);
+    __result = Rcpp::wrap(write_binary(df, file_name, field_types));
+    return __result;
+END_RCPP
+}

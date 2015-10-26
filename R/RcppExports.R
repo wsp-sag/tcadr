@@ -24,3 +24,60 @@ get_df_from_binary <- function(bin_file, name, type, start, width, row_length) {
     .Call('tcadr_get_df_from_binary', PACKAGE = 'tcadr', bin_file, name, type, start, width, row_length)
 }
 
+#' @author Amar Sarvepalli
+#' @param  List or DataFrame object
+#' @return int columns
+#' To get number of dataframe columns
+#'
+getColumns <- function(df) {
+    .Call('tcadr_getColumns', PACKAGE = 'tcadr', df)
+}
+
+#' To get number of dataframe rows
+#'
+getRows <- function(df) {
+    .Call('tcadr_getRows', PACKAGE = 'tcadr', df)
+}
+
+#' To get number of dataframe dimensions
+#'
+getDims <- function(df) {
+    .Call('tcadr_getDims', PACKAGE = 'tcadr', df)
+}
+
+#' Method to extract dataframe column names
+#'
+getNames <- function(df) {
+    .Call('tcadr_getNames', PACKAGE = 'tcadr', df)
+}
+
+#' Method to get column width
+#'
+get_width <- function(s) {
+    .Call('tcadr_get_width', PACKAGE = 'tcadr', s)
+}
+
+#' Split string (splits line by ",")
+name_split <- function(line, delim) {
+    .Call('tcadr_name_split', PACKAGE = 'tcadr', line, delim)
+}
+
+#' writes dcb info
+#' @param List of field info
+#' @param String filename
+write_dcb <- function(df, file_name) {
+    invisible(.Call('tcadr_write_dcb', PACKAGE = 'tcadr', df, file_name))
+}
+
+#'  Method to export data from dataframe to binary file
+#'  This exports only 3 datatypes: Character, Integer and Double
+#'  Writes the dcb file
+#'  @author Amar Sarvepalli
+#'  @param List or DataFrame
+#'  @param List datatypes
+#'  @date 10-22-2015
+#'
+write_binary <- function(df, file_name, field_types) {
+    .Call('tcadr_write_binary', PACKAGE = 'tcadr', df, file_name, field_types)
+}
+
