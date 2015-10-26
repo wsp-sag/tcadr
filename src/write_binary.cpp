@@ -1,7 +1,6 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
-
 //' @author Amar Sarvepalli
 //' @param  List or DataFrame object
 //' @return int columns
