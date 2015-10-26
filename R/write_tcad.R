@@ -18,7 +18,8 @@
 #'   therefore visible in RStudio).
 #'
 #' @return The \code{DCB} dictionary file will be writern to the same
-#'   folder.
+#'   folder. Prints dcb file contents to console.Need to make it a user defined 
+#'   option.
 #'
 write_tcad <-  function(df,file_name){
     typs <- sapply(df,typeof)
