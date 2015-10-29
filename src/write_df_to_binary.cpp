@@ -89,7 +89,7 @@ std::vector<std::string> name_split(const std::string line, char delim){
 //' @name write_dcb
 //' @param df DataFrame object
 //' @param file_name name of the file
-//' @details internal function dcb info 
+//' @details internal function dcb info
 //' @details doesn't return anything
 //'
 // [[Rcpp::export]]
@@ -145,8 +145,8 @@ void write_dcb(List df, String file_name){
 //' @param df DataFrame object
 //' @param file_name output filename
 //' @param field_types datatypes
-//' @details Method to export data from dataframe to binary file. 
-//' @details This exports only 3 datatypes: Character, Integer and Double 
+//' @details Method to export data from dataframe to binary file.
+//' @details This exports only 3 datatypes: Character, Integer and Double
 //' @details Writes the *.dcb file along with *.bin file
 //' @return new_dcb_info_df prints dictionary file to console
 //'

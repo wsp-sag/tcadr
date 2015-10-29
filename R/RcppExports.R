@@ -89,7 +89,7 @@ name_split <- function(line, delim) {
 #' @name write_dcb
 #' @param df DataFrame object
 #' @param file_name name of the file
-#' @details internal function dcb info 
+#' @details internal function dcb info
 #' @details doesn't return anything
 #'
 write_dcb <- function(df, file_name) {
@@ -101,8 +101,8 @@ write_dcb <- function(df, file_name) {
 #' @param df DataFrame object
 #' @param file_name output filename
 #' @param field_types datatypes
-#' @details Method to export data from dataframe to binary file. 
-#' @details This exports only 3 datatypes: Character, Integer and Double 
+#' @details Method to export data from dataframe to binary file.
+#' @details This exports only 3 datatypes: Character, Integer and Double
 #' @details Writes the *.dcb file along with *.bin file
 #' @return new_dcb_info_df prints dictionary file to console
 #'
