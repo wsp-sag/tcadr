@@ -11,7 +11,6 @@ using namespace Rcpp;
 //' @return int columns
 //' To get number of dataframe columns
 //'
-// [[Rcpp::export]]
 int getColumns(List df){
   // if(!dataframe.inherits("data.frame")) stop("Input must be a data frame or list")
   int ncols = df.size();
@@ -24,7 +23,6 @@ int getColumns(List df){
 //' @param df DataFrame object
 //' @return nrows number of rows
 //'
-// [[Rcpp::export]]
 int getRows(List df){
   // if(!dataframe.inherits("data.frame")) stop("Input must be a data frame or list")
   List fisrtColumn(df[1]);
@@ -38,7 +36,6 @@ int getRows(List df){
 //' @details To get number of dataframe dimensions
 //' @return nrowcol array of rows and columns (r x c)
 //'
-// [[Rcpp::export]]
 NumericVector getDims(List df){
   int nrows = getRows(df);
   int ncols = getColumns(df);
@@ -52,7 +49,6 @@ NumericVector getDims(List df){
 //' @details Method to extract dataframe column names
 //' @return names field names
 //'
-// [[Rcpp::export]]
 CharacterVector getNames(List df){
   CharacterVector names(df.names());
   return names;
@@ -64,7 +60,6 @@ CharacterVector getNames(List df){
 //' @param s character field
 //' @return element_width width of the column
 //'
-// [[Rcpp::export]]
 int get_width(const std::string& s)
 {
     int element_width = 0;
@@ -78,7 +73,6 @@ int get_width(const std::string& s)
 //' @param delim delimter can be anything
 //' @return fields elements of string line
 //'
-// [[Rcpp::export]]
 std::vector<std::string> name_split(const std::string line, char delim){
     std::string word;
     std::vector<std::string> fields;
