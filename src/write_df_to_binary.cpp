@@ -6,39 +6,20 @@ using namespace Rcpp;
 #define flt_miss   -3.402823466e+38F
 #define dbl_miss   -1.7976931348623158e+30
 
-//' Get the number of columns in a data frame
-//' 
-//' @author Amar Sarvepalli
-//' @param df a data frame
-//' @return int Number of colums
-//'
-int getColumns(List df){
-  // if(!dataframe.inherits("data.frame")) stop("Input must be a data frame or list")
-  int ncols = df.size();
-  return ncols;
-}
-
-//' Get the number of rows in a data frame
-//' 
-//' @param df DataFrame object
-//' @return nrows number of rows
-//'
-int getRows(List df){
-  // if(!dataframe.inherits("data.frame")) stop("Input must be a data frame or list")
-  List fisrtColumn(df[1]);
-  int nrows = fisrtColumn.size();
-  return nrows;
-}
 
 //' Get the dimensions of a data frame
 //' 
 //' @param df DataFrame object
 //' @details To get number of dataframe dimensions
 //' @return Array with the number of rows and columns (r x c)
+//' @name getDims
 //'
 NumericVector getDims(List df){
-  int nrows = getRows(df);
-  int ncols = getColumns(df);
+  int ncols = df.size();
+  
+  List fisrtColumn(df[1]);
+  int nrows = fisrtColumn.size();
+  
   NumericVector nrowcol = NumericVector::create(nrows, ncols);
   return nrowcol;
 }
@@ -47,6 +28,7 @@ NumericVector getDims(List df){
 //' 
 //' @param df DataFrame object
 //' @return names field names
+//' @name getNames
 //'
 CharacterVector getNames(List df){
   CharacterVector names(df.names());
@@ -57,6 +39,7 @@ CharacterVector getNames(List df){
 //' 
 //' @param s character field
 //' @return element_width width of the column
+//' @name get_width
 //'
 int get_width(const std::string& s)
 {
@@ -83,6 +66,7 @@ std::vector<std::string> name_split(const std::string line, char delim){
 
 //' Write a TransCAD Dictionary File
 //' 
+//' @name write_dcb
 //' @param df Data frame
 //' @param file Name and path to the \code{.DCB} file.
 //'
@@ -142,6 +126,7 @@ void write_dcb(List df, String file){
 //'   written out to TransCAD.
 //' @param file A character string giving the output file name and path.
 //' @param field_types A character vector giving the data types of each column.
+//' @name write_df_to_binary
 //'
 //' @details Currently this function only exports only 3 datatypes: Character,
 //'   Integer and Double.
