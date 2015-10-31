@@ -6,10 +6,11 @@ using namespace Rcpp;
 #define flt_miss   -3.402823466e+38F
 #define dbl_miss   -1.7976931348623158e+30
 
+//' Get the number of columns in a data frame
+//' 
 //' @author Amar Sarvepalli
-//' @param  List or DataFrame object
-//' @return int columns
-//' To get number of dataframe columns
+//' @param df a data frame
+//' @return int Number of colums
 //'
 int getColumns(List df){
   // if(!dataframe.inherits("data.frame")) stop("Input must be a data frame or list")
@@ -17,9 +18,8 @@ int getColumns(List df){
   return ncols;
 }
 
-//' @title get rows
-//' @name getRows
-//' @details To get number of dataframe rows
+//' Get the number of rows in a data frame
+//' 
 //' @param df DataFrame object
 //' @return nrows number of rows
 //'
@@ -30,11 +30,11 @@ int getRows(List df){
   return nrows;
 }
 
-//' @title get dimensions
-//' @name getDims
+//' Get the dimensions of a data frame
+//' 
 //' @param df DataFrame object
 //' @details To get number of dataframe dimensions
-//' @return nrowcol array of rows and columns (r x c)
+//' @return Array with the number of rows and columns (r x c)
 //'
 NumericVector getDims(List df){
   int nrows = getRows(df);
@@ -43,10 +43,9 @@ NumericVector getDims(List df){
   return nrowcol;
 }
 
-//' @title get field names
-//' @name getNames
+//' Get the names of the field headers
+//' 
 //' @param df DataFrame object
-//' @details Method to extract dataframe column names
 //' @return names field names
 //'
 CharacterVector getNames(List df){
@@ -54,9 +53,8 @@ CharacterVector getNames(List df){
   return names;
 }
 
-//' @title get field width
-//' @name get_width
-//' @details Method to get column width
+//' Get the field width in bytes
+//' 
 //' @param s character field
 //' @return element_width width of the column
 //'
@@ -83,21 +81,19 @@ std::vector<std::string> name_split(const std::string line, char delim){
     return(fields);
 }
 
-//' @title write dictionary file
-//' @name write_dcb
-//' @param df DataFrame object
-//' @param file_name name of the file
-//' @details internal function dcb info
-//' @details doesn't return anything
+//' Write a TransCAD Dictionary File
+//' 
+//' @param df Data frame
+//' @param file Name and path to the \code{.DCB} file.
 //'
 // [[Rcpp::export]]
-void write_dcb(List df, String file_name){
+void write_dcb(List df, String file){
 
     FILE* pFile;
 
     // Get dcb file name
-    std::vector<std::string> file_name_noext = name_split(file_name,'.');
-    std::string dcbfName = file_name_noext[0]+".DCB";
+    std::vector<std::string> file_noext = name_split(file,'.');
+    std::string dcbfName = file_noext[0]+".DCB";
     pFile = fopen(dcbfName.c_str(),"w");
 
     // Get the data frame lists
@@ -142,9 +138,9 @@ void write_dcb(List df, String file_name){
 //'
 //' This is a C++ implementation written by Amar Sarvepalli and adapted for
 //' Rcpp by Greg Macfarlane.
-//' @param df List of variables (or a \code{data.frame} that need to be
-//'   written).
-//' @param file_name A character string giving the output file name.
+//' @param df List of variables (or a \code{data.frame}) that need to be
+//'   written out to TransCAD.
+//' @param file A character string giving the output file name and path.
 //' @param field_types A character vector giving the data types of each column.
 //'
 //' @details Currently this function only exports only 3 datatypes: Character,
@@ -153,7 +149,7 @@ void write_dcb(List df, String file_name){
 // [[Rcpp::export]]
 void write_df_to_binary(
   List df,
-  String file_name,
+  String file,
   CharacterVector field_types){
 
   // Check if n fields match to ftypes
@@ -177,7 +173,7 @@ void write_df_to_binary(
   IntegerVector dcb_display(ncols);
 
   FILE* pFile;
-  pFile = fopen(file_name.get_cstring(),"wb");
+  pFile = fopen(file.get_cstring(),"wb");
 
   // write binary data by rows
   for(int r = 0; r < nrows; r++){
@@ -249,7 +245,7 @@ void write_df_to_binary(
                                        _["Display.Name"]= dcb_blank
                                       );
               new_dcb_info = dcb_info;
-              write_dcb(new_dcb_info, file_name);
+              write_dcb(new_dcb_info, file);
               new_dcb_info_df = clone(dcb_info);
             }
         }
