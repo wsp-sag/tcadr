@@ -254,6 +254,5 @@ void write_df_to_binary(
   }
 
   fclose(pFile);
-  return new_dcb_info_df;
 }
 
