@@ -2,17 +2,14 @@
 % Please edit documentation in R/RcppExports.R
 \name{getNames}
 \alias{getNames}
-\title{get field names}
-\usage{
-getNames(df)
-}
+\title{Get the names of the field headers}
 \arguments{
 \item{df}{DataFrame object}
 }
 \value{
 names field names
 }
-\details{
-Method to extract dataframe column names
+\description{
+Get the names of the field headers
 }
 

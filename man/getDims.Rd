@@ -2,15 +2,15 @@
 % Please edit documentation in R/RcppExports.R
 \name{getDims}
 \alias{getDims}
-\title{get dimensions}
-\usage{
-getDims(df)
-}
+\title{Get the dimensions of a data frame}
 \arguments{
 \item{df}{DataFrame object}
 }
 \value{
-nrowcol array of rows and columns (r x c)
+Array with the number of rows and columns (r x c)
+}
+\description{
+Get the dimensions of a data frame
 }
 \details{
 To get number of dataframe dimensions

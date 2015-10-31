@@ -2,18 +2,16 @@
 % Please edit documentation in R/RcppExports.R
 \name{write_dcb}
 \alias{write_dcb}
-\title{write dictionary file}
+\title{Write a TransCAD Dictionary File}
 \usage{
-write_dcb(df, file_name)
+write_dcb(df, file)
 }
 \arguments{
-\item{df}{DataFrame object}
+\item{df}{Data frame}
 
-\item{file_name}{name of the file}
+\item{file}{Name and path to the \code{.DCB} file.}
 }
-\details{
-internal function dcb info
-
-doesn't return anything
+\description{
+Write a TransCAD Dictionary File
 }
 

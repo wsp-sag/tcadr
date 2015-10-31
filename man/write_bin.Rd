@@ -4,26 +4,22 @@
 \alias{write_bin}
 \title{Write a TransCAD binary file}
 \usage{
-write_bin(df, file_name)
+write_bin(df, file)
 }
 \arguments{
 \item{df}{workspace dataframe object}
 
-\item{file_name}{The path and name of the binary data file, e.g.
+\item{file}{The path and name of the binary data file, e.g.
 \code{data/foo.bin}.}
 }
 \value{
-The \code{DCB} dictionary file will be writern to the same
-  folder. Prints dcb file contents to console.Need to make it a user defined 
-  option.
+The \code{DCB} dictionary file will be written to the same
+  folder as the \code{.bin} file.
 }
 \description{
-Write a TransCAD \code{.bin} binary data file fromt the workspace.
+Write a TransCAD \code{.bin} binary data file from the workspace.
 }
 \details{
-If any factors exist in the data frame, then those fields are writern 
-  out with factor level (instead of actualvalue). Remove dataframe factors.
-
 This version doesn't work well with NA's in the dataframe.
 }
 

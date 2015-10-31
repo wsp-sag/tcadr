@@ -2,17 +2,14 @@
 % Please edit documentation in R/RcppExports.R
 \name{get_width}
 \alias{get_width}
-\title{get field width}
-\usage{
-get_width(s)
-}
+\title{Get the field width in bytes}
 \arguments{
 \item{s}{character field}
 }
 \value{
 element_width width of the column
 }
-\details{
-Method to get column width
+\description{
+Get the field width in bytes
 }
 

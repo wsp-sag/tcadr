@@ -2,25 +2,24 @@
 % Please edit documentation in R/RcppExports.R
 \name{write_df_to_binary}
 \alias{write_df_to_binary}
-\title{write binary file}
+\title{Write a binary TransCAD file from an R data frame.}
 \usage{
-write_df_to_binary(df, file_name, field_types)
+write_df_to_binary(df, file, field_types)
 }
 \arguments{
-\item{df}{DataFrame object}
+\item{df}{List of variables (or a \code{data.frame}) that need to be
+written out to TransCAD.}
 
-\item{file_name}{output filename}
+\item{file}{A character string giving the output file name and path.}
 
-\item{field_types}{datatypes}
+\item{field_types}{A character vector giving the data types of each column.}
 }
-\value{
-new_dcb_info_df prints dictionary file to console
+\description{
+This is a C++ implementation written by Amar Sarvepalli and adapted for
+Rcpp by Greg Macfarlane.
 }
 \details{
-Method to export data from dataframe to binary file.
-
-This exports only 3 datatypes: Character, Integer and Double
-
-Writes the *.dcb file along with *.bin file
+Currently this function only exports only 3 datatypes: Character,
+  Integer and Double.
 }
 

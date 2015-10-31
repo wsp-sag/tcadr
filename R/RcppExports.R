@@ -24,55 +24,30 @@ get_df_from_binary <- function(bin_file, name, type, start, width, row_length) {
     .Call('tcadr_get_df_from_binary', PACKAGE = 'tcadr', bin_file, name, type, start, width, row_length)
 }
 
-#' @title get columns
-#' @name getColumns
-#' @details To get number of dataframe columns
-#' @param df DataFrame object
-#' @return ncols number of columns
-#'
-getColumns <- function(df) {
-    .Call('tcadr_getColumns', PACKAGE = 'tcadr', df)
-}
-
-#' @title get rows
-#' @name getRows
-#' @details To get number of dataframe rows
-#' @param df DataFrame object
-#' @return nrows number of rows
-#'
-getRows <- function(df) {
-    .Call('tcadr_getRows', PACKAGE = 'tcadr', df)
-}
-
-#' @title get dimensions
-#' @name getDims
+#' Get the dimensions of a data frame
+#' 
 #' @param df DataFrame object
 #' @details To get number of dataframe dimensions
-#' @return nrowcol array of rows and columns (r x c)
+#' @return Array with the number of rows and columns (r x c)
+#' @name getDims
 #'
-getDims <- function(df) {
-    .Call('tcadr_getDims', PACKAGE = 'tcadr', df)
-}
+NULL
 
-#' @title get field names
-#' @name getNames
+#' Get the names of the field headers
+#' 
 #' @param df DataFrame object
-#' @details Method to extract dataframe column names
 #' @return names field names
+#' @name getNames
 #'
-getNames <- function(df) {
-    .Call('tcadr_getNames', PACKAGE = 'tcadr', df)
-}
+NULL
 
-#' @title get field width
-#' @name get_width
-#' @details Method to get column width
+#' Get the field width in bytes
+#' 
 #' @param s character field
 #' @return element_width width of the column
+#' @name get_width
 #'
-get_width <- function(s) {
-    .Call('tcadr_get_width', PACKAGE = 'tcadr', s)
-}
+NULL
 
 #' @title parse line by comma deliminated
 #' @name name_split
@@ -81,32 +56,32 @@ get_width <- function(s) {
 #' @param delim delimter can be anything
 #' @return fields elements of string line
 #'
-name_split <- function(line, delim) {
-    .Call('tcadr_name_split', PACKAGE = 'tcadr', line, delim)
-}
+NULL
 
-#' @title write dictionary file
+#' Write a TransCAD Dictionary File
+#' 
 #' @name write_dcb
-#' @param df DataFrame object
-#' @param file_name name of the file
-#' @details internal function dcb info
-#' @details doesn't return anything
+#' @param df Data frame
+#' @param file Name and path to the \code{.DCB} file.
 #'
-write_dcb <- function(df, file_name) {
-    invisible(.Call('tcadr_write_dcb', PACKAGE = 'tcadr', df, file_name))
+write_dcb <- function(df, file) {
+    invisible(.Call('tcadr_write_dcb', PACKAGE = 'tcadr', df, file))
 }
 
-#' @title write binary file
-#' @name write_df_to_binary
-#' @param df DataFrame object
-#' @param file_name output filename
-#' @param field_types datatypes
-#' @details Method to export data from dataframe to binary file.
-#' @details This exports only 3 datatypes: Character, Integer and Double
-#' @details Writes the *.dcb file along with *.bin file
-#' @return new_dcb_info_df prints dictionary file to console
+#' Write a binary TransCAD file from an R data frame.
 #'
-write_df_to_binary <- function(df, file_name, field_types) {
-    .Call('tcadr_write_df_to_binary', PACKAGE = 'tcadr', df, file_name, field_types)
+#' This is a C++ implementation written by Amar Sarvepalli and adapted for
+#' Rcpp by Greg Macfarlane.
+#' @param df List of variables (or a \code{data.frame}) that need to be
+#'   written out to TransCAD.
+#' @param file A character string giving the output file name and path.
+#' @param field_types A character vector giving the data types of each column.
+#' @name write_df_to_binary
+#'
+#' @details Currently this function only exports only 3 datatypes: Character,
+#'   Integer and Double.
+#'
+write_df_to_binary <- function(df, file, field_types) {
+    invisible(.Call('tcadr_write_df_to_binary', PACKAGE = 'tcadr', df, file, field_types))
 }
 

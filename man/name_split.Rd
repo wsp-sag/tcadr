@@ -3,9 +3,6 @@
 \name{name_split}
 \alias{name_split}
 \title{parse line by comma deliminated}
-\usage{
-name_split(line, delim)
-}
 \arguments{
 \item{line}{string line separated by delimiter}
 
