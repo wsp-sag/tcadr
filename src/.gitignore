@@ -4,3 +4,4 @@ times2.o
 write_to_df.o
 get_df_from_binary.o
 tcadr.so
+write_df_to_binary.o
