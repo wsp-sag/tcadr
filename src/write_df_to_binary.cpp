@@ -115,21 +115,21 @@ void write_dcb(List df, String file){
 
     // write to output
     for (int i = 0; i < ncols; i++){
-      if (i == 0) { fprintf(pFile, "\n %d", total_bytes); }
+      if (i == 0) { fprintf(pFile, "\n%d\n", total_bytes); }
 
-      fprintf(pFile, "\n %s", dcb_fieldNames[i].c_str());
-      fprintf(pFile, ", %s", dcb_fieldTypes[i].c_str());
-      fprintf(pFile, ", %d", dcb_position[i]);
-      fprintf(pFile, ", %d", dcb_fieldBytes[i]);
-      fprintf(pFile, ", %d", dcb_decimal[i]);
-      fprintf(pFile, ", %d", dcb_display[i]);
-      fprintf(pFile, ", %s", blank);
-      fprintf(pFile, ", %s", blank);
-      fprintf(pFile, ", %s", blank);
-      fprintf(pFile, ", %s", blank);
-      fprintf(pFile, ", %s", blank);
-      fprintf(pFile, ", %s", blank);
-      fprintf(pFile, ", %s", blank);
+      fprintf(pFile, "%s", dcb_fieldNames[i].c_str());
+      fprintf(pFile, ",%s", dcb_fieldTypes[i].c_str());
+      fprintf(pFile, ",%d", dcb_position[i]);
+      fprintf(pFile, ",%d", dcb_fieldBytes[i]);
+      fprintf(pFile, ",%d", dcb_decimal[i]);
+      fprintf(pFile, ",%d", dcb_display[i]);
+      fprintf(pFile, ",%s", blank);
+      fprintf(pFile, ",%s", blank);
+      fprintf(pFile, ",%s", blank);
+      fprintf(pFile, ",%s", blank);
+      fprintf(pFile, ",%s", blank);
+      fprintf(pFile, ",%s", blank);
+      fprintf(pFile, ",%s\n", blank);
     }
     fclose(pFile);
 }
