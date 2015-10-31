@@ -20,7 +20,7 @@
 #' @importFrom data.table setattr
 #' @importFrom dplyr data_frame mutate_each_ tbl_df
 #'
-read_tcad_bin <- function(file, df_only = TRUE){
+read_tcad <- function(file, df_only = TRUE){
 
 
   # Get file string for the DCB file.

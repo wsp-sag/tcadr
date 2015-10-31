@@ -12,7 +12,7 @@
 #' @return The \code{DCB} dictionary file will be written to the same
 #'   folder as the \code{.bin} file. 
 #'
-write_bin <- function(df, file){
+write_tcad <- function(df, file){
   
   i <- sapply(df, is.factor) # which variables are factors?
   df[i] <- lapply(df[i], as.character) # convert them to char strings
