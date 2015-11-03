@@ -18,6 +18,6 @@ write_tcad <- function(df, file){
   df[i] <- lapply(df[i], as.character) # convert them to char strings
   
   typs <- sapply(df, typeof)
-  write_df_to_binary(df, file, typs)
+  write_df_to_binary(df, path.expand(file), typs)
   
 }
