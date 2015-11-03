@@ -1,7 +1,7 @@
 Package: tcadr
 Type: Package
 Title: Import TransCAD Objects to R
-Version: 0.0.2.5
+Version: 0.2.0
 Date: 2015-10-29
 Authors@R: c(
     person("Gregory", "Macfarlane", email = "macfarlaneg@pbworld.com", role = c("aut", "cre")),

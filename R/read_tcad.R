@@ -5,8 +5,10 @@
 #' @param file The path and name of the binary data file, e.g.
 #'   \code{data/foo.bin}. The \code{DCB} dictionary file should be in the same
 #'   folder.
-#' @param df_only Should the function return a `data.frame` or a list with
-#' the descriptions appended? \code{default = TRUE}
+#' @param df_only Should the function return a `data.frame` or a list with the
+#'   descriptions appended? \code{default = TRUE}
+#' @param strip_whitespace Should excess whitespace be stripped from character 
+#'   variables? \code{default = TRUE}
 #' 
 #' @details If any variable descriptions are available in the dictionary file, 
 #'   then they will be appended to the \code{attr(*, "label")} attribute (and 
@@ -20,7 +22,7 @@
 #' @importFrom data.table setattr
 #' @importFrom dplyr data_frame mutate_each_ tbl_df
 #'
-read_tcad <- function(file, df_only = TRUE){
+read_tcad <- function(file, df_only = TRUE, strip_whitespace = TRUE){
 
 
   # Get file string for the DCB file.
@@ -42,9 +44,16 @@ read_tcad <- function(file, df_only = TRUE){
     stringsAsFactors = FALSE)
     )
 
-  # strip white space from character strings
-  character_vars <- names(df)[sapply(df, is.character)]
-  df <- dplyr::mutate_each_(df, dplyr::funs(trim), character_vars)
+  # strip white space from character strings; 
+  if(strip_whitespace){
+    character_vars <- names(df)[sapply(df, is.character)]
+    
+    # only trim if character variables exist in the data.
+    if(length(character_vars > 0)){
+      df <- dplyr::mutate_each_(df, dplyr::funs(trim), character_vars)
+    }
+    
+  }
   
   # add labels to data frame if they exist.
   if(any(!is.na(dcb$description))){
