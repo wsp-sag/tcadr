@@ -2,13 +2,13 @@
 using namespace Rcpp;
 
 #define short_miss -32767
-#define long_miss  -2147483647
-#define flt_miss   -3.402823466e+38F
-#define dbl_miss   -1.7976931348623158e+30
+#define long_miss -2147483647
+#define flt_miss -3.402823466e+38F
+#define dbl_miss -1.7976931348623158e+308
 
 
 //' Get the dimensions of a data frame
-//' 
+//'
 //' @param df DataFrame object
 //' @details To get number of dataframe dimensions
 //' @return Array with the number of rows and columns (r x c)
@@ -16,16 +16,16 @@ using namespace Rcpp;
 //'
 NumericVector getDims(List df){
   int ncols = df.size();
-  
+
   List fisrtColumn(df[1]);
   int nrows = fisrtColumn.size();
-  
+
   NumericVector nrowcol = NumericVector::create(nrows, ncols);
   return nrowcol;
 }
 
 //' Get the names of the field headers
-//' 
+//'
 //' @param df DataFrame object
 //' @return names field names
 //' @name getNames
@@ -36,7 +36,7 @@ CharacterVector getNames(List df){
 }
 
 //' Get the field width in bytes
-//' 
+//'
 //' @param s character field
 //' @return element_width width of the column
 //' @name get_width
@@ -65,7 +65,7 @@ std::vector<std::string> name_split(const std::string line, char delim){
 }
 
 //' Write a TransCAD Dictionary File
-//' 
+//'
 //' @name write_dcb
 //' @param df Data frame
 //' @param file Name and path to the \code{.DCB} file.
@@ -141,14 +141,13 @@ void write_df_to_binary(
   if(df.size() != field_types.size()){
     throw std::range_error( "length of \"field types\" is not same as number of fields in the dataframe");
   }
-    
+
   NumericVector nrowcols = getDims(df);
   int nrows = nrowcols[0];
   int ncols= nrowcols[1];
 
   // dcb info fields
   List new_dcb_info;
-  DataFrame new_dcb_info_df;
   CharacterVector dcb_fieldNames = getNames(df);
   CharacterVector dcb_fieldTypes(ncols);
   CharacterVector dcb_blank(ncols);
@@ -172,6 +171,9 @@ void write_df_to_binary(
               dcb_decimal[c] = 4; // write a method to check decimals
            }
            double vec_d = as<NumericVector>(df[c])[r];
+           if (NumericVector::is_na(vec_d)) {
+               vec_d = dbl_miss;
+           }
            fwrite((char*)&vec_d,8,1,pFile);
        }
 
@@ -183,24 +185,30 @@ void write_df_to_binary(
               dcb_decimal[c] = 0;
            }
           int vec_i = as<IntegerVector>(df[c])[r];
+          if (IntegerVector::is_na(vec_i)) {
+              vec_i = long_miss;
+           }
           fwrite((char*)&vec_i,4,1,pFile);
        }
 
        // Character
        if (field_types[c] == "character") {
           std::vector <std::string> vec_c= as<std::vector <std::string> >(df[c]);
+          // Check all elements and get field width
           int col_width = 0;
-         // Check all elements and get field width
-         if (r == 0){
-             for (int i = 0; i < (int)vec_c.size(); i++){
-               if(col_width < get_width(vec_c[i])){ col_width = get_width(vec_c[i]);}
-             }
-             dcb_fieldTypes[c] = "C";
-             dcb_fieldBytes[c] = col_width;
-             dcb_decimal[c] = 0;
+          if (r == 0){
+              for (int i = 0; i < (int)vec_c.size(); i++){
+                  if(col_width < get_width(vec_c[i])){ col_width = get_width(vec_c[i]);}
+              }
+              dcb_fieldTypes[c] = "C";
+              dcb_fieldBytes[c] = col_width;
+              dcb_decimal[c] = 0;
           }
-
-          fwrite(vec_c[r].c_str(),dcb_fieldBytes[c],1,pFile);
+          if (vec_c[r] == "NA"){
+              fwrite("",dcb_fieldBytes[c],1,pFile);
+          } else {
+              fwrite(vec_c[r].c_str(),dcb_fieldBytes[c],1,pFile);
+          }
        }
 
         // write dcb header file
@@ -231,7 +239,6 @@ void write_df_to_binary(
                                       );
               new_dcb_info = dcb_info;
               write_dcb(new_dcb_info, file);
-              new_dcb_info_df = clone(dcb_info);
             }
         }
 

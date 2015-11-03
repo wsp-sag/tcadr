@@ -25,7 +25,7 @@ get_df_from_binary <- function(bin_file, name, type, start, width, row_length) {
 }
 
 #' Get the dimensions of a data frame
-#' 
+#'
 #' @param df DataFrame object
 #' @details To get number of dataframe dimensions
 #' @return Array with the number of rows and columns (r x c)
@@ -34,7 +34,7 @@ get_df_from_binary <- function(bin_file, name, type, start, width, row_length) {
 NULL
 
 #' Get the names of the field headers
-#' 
+#'
 #' @param df DataFrame object
 #' @return names field names
 #' @name getNames
@@ -42,7 +42,7 @@ NULL
 NULL
 
 #' Get the field width in bytes
-#' 
+#'
 #' @param s character field
 #' @return element_width width of the column
 #' @name get_width
@@ -59,7 +59,7 @@ NULL
 NULL
 
 #' Write a TransCAD Dictionary File
-#' 
+#'
 #' @name write_dcb
 #' @param df Data frame
 #' @param file Name and path to the \code{.DCB} file.
