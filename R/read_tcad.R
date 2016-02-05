@@ -39,7 +39,7 @@ read_tcad <- function(file, df_only = TRUE, strip_whitespace = TRUE){
   df <- dplyr::tbl_df(as.data.frame(
     get_df_from_binary(path.expand(file), 
                        dcb$name, dcb$type,
-                       dcb$start, dcb$width,
+                       dcb$start, dcb$d_width,
                        row_length),
     stringsAsFactors = FALSE)
     )
