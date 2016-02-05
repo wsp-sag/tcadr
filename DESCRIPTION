@@ -19,6 +19,8 @@ Imports:
     Rcpp,
     dplyr,
     data.table
-RoxygenNote: 5.0.0
-Suggests: testthat
-Depends: R (>= 3.2.2)
+RoxygenNote: 5.0.1
+Suggests:
+    testthat
+Depends:
+    R (>= 3.2.2)
