@@ -112,7 +112,7 @@ List get_df_from_binary(
         line_pos = j * row_length + start[i] - 1;
         bf.seekg(line_pos, ios::beg);
 
-        bf.read((char*)&current_vec[j], 2);
+        bf.read((char*)&current_vec[j], 4);
         if(current_vec[j] == flt_miss){
           current_vec[j] = NA_REAL;
         }
