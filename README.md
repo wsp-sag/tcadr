@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/pbsag/tcadr.svg?branch=master)](https://travis-ci.org/pbsag/tcadr)
+
 tcadr
 ==============
 
