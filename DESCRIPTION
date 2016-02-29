@@ -1,8 +1,8 @@
 Package: tcadr
 Type: Package
 Title: Import TransCAD Objects to R
-Version: 0.0.2.2
-Date: 2015-09-25
+Version: 0.2.1
+Date: 2016-02-29
 Authors@R: c(
     person("Gregory", "Macfarlane", email = "macfarlaneg@pbworld.com", role = c("aut", "cre")),
     person("Amar", "Sarvepalli", email = "sarvepallia@pbworld.com", role = c("aut"))
@@ -10,9 +10,17 @@ Authors@R: c(
 Description: Caliper's TransCAD application and GISDK language are widely used
     in travel demand modeling applications. However, it can be difficult to conduct
     complex analyses with these tools, because the file formats are unique and/or
-    non-standard. This package contains helper scripts to read TransCAD files for use
-    in R.
+    non-standard. This package contains helper scripts to read TransCAD files for
+    use in R.
 License: MIT + file LICENSE
 LazyData: TRUE
 LinkingTo: Rcpp
-Imports: Rcpp, dplyr, data.table
+Imports:
+    Rcpp,
+    dplyr,
+    data.table
+RoxygenNote: 5.0.1
+Suggests:
+    testthat
+Depends:
+    R (>= 3.2.2)

@@ -1,21 +1,23 @@
-#' @title Write a TransCAD binary file
+#' Write a TransCAD binary file
 #'
-#' @description Write a TransCAD \code{.bin} binary data file fromt the workspace.
+#' @description Write a TransCAD \code{.bin} binary data file from the workspace.
 #'
 #' @param df workspace dataframe object
 #'
-#' @param file_name The path and name of the binary data file, e.g.
+#' @param file The path and name of the binary data file, e.g.
 #'   \code{data/foo.bin}.
 #'
-#' @details If any factors exist in the data frame, then those fields are writern 
-#'   out with factor level (instead of actualvalue). Remove dataframe factors.
 #' @details This version doesn't work well with NA's in the dataframe. 
 #'
-#' @return The \code{DCB} dictionary file will be writern to the same
-#'   folder. Prints dcb file contents to console.Need to make it a user defined 
-#'   option.
+#' @return The \code{DCB} dictionary file will be written to the same
+#'   folder as the \code{.bin} file. 
 #'
-write_bin <-  function(df,file_name){
-    typs <- sapply(df,typeof)
-    write_df_to_binary(df,file_name,typs)
+write_tcad <- function(df, file){
+  
+  i <- sapply(df, is.factor) # which variables are factors?
+  df[i] <- lapply(df[i], as.character) # convert them to char strings
+  
+  typs <- sapply(df, typeof)
+  write_df_to_binary(df, path.expand(file), typs)
+  
 }

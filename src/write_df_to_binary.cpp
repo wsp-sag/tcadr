@@ -1,66 +1,46 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
-//' @title get columns
-//' @name getColumns
-//' @details To get number of dataframe columns
-//' @param df DataFrame object
-//' @return ncols number of columns
-//'
-// [[Rcpp::export]]
-int getColumns(List df){
-  // if(!dataframe.inherits("data.frame")) stop("Input must be a data frame or list")
-  int ncols = df.size();
-  return ncols;
-}
+#define short_miss -32767
+#define long_miss -2147483647
+#define flt_miss -3.402823466e+38F
+#define dbl_miss -1.7976931348623158e+308
 
-//' @title get rows
-//' @name getRows
-//' @details To get number of dataframe rows
-//' @param df DataFrame object
-//' @return nrows number of rows
-//'
-// [[Rcpp::export]]
-int getRows(List df){
-  // if(!dataframe.inherits("data.frame")) stop("Input must be a data frame or list")
-  List fisrtColumn(df[1]);
-  int nrows = fisrtColumn.size();
-  return nrows;
-}
 
-//' @title get dimensions
-//' @name getDims
+//' Get the dimensions of a data frame
+//'
 //' @param df DataFrame object
 //' @details To get number of dataframe dimensions
-//' @return nrowcol array of rows and columns (r x c)
+//' @return Array with the number of rows and columns (r x c)
+//' @name getDims
 //'
-// [[Rcpp::export]]
 NumericVector getDims(List df){
-  int nrows = getRows(df);
-  int ncols = getColumns(df);
+  int ncols = df.size();
+
+  List fisrtColumn(df[1]);
+  int nrows = fisrtColumn.size();
+
   NumericVector nrowcol = NumericVector::create(nrows, ncols);
   return nrowcol;
 }
 
-//' @title get field names
-//' @name getNames
-//' @param df DataFrame object
-//' @details Method to extract dataframe column names
-//' @return names field names
+//' Get the names of the field headers
 //'
-// [[Rcpp::export]]
+//' @param df DataFrame object
+//' @return names field names
+//' @name getNames
+//'
 CharacterVector getNames(List df){
   CharacterVector names(df.names());
   return names;
 }
 
-//' @title get field width
-//' @name get_width
-//' @details Method to get column width
+//' Get the field width in bytes
+//'
 //' @param s character field
 //' @return element_width width of the column
+//' @name get_width
 //'
-// [[Rcpp::export]]
 int get_width(const std::string& s)
 {
     int element_width = 0;
@@ -74,7 +54,6 @@ int get_width(const std::string& s)
 //' @param delim delimter can be anything
 //' @return fields elements of string line
 //'
-// [[Rcpp::export]]
 std::vector<std::string> name_split(const std::string line, char delim){
     std::string word;
     std::vector<std::string> fields;
@@ -85,21 +64,20 @@ std::vector<std::string> name_split(const std::string line, char delim){
     return(fields);
 }
 
-//' @title write dictionary file
+//' Write a TransCAD Dictionary File
+//'
 //' @name write_dcb
-//' @param df DataFrame object
-//' @param file_name name of the file
-//' @details internal function dcb info 
-//' @details doesn't return anything
+//' @param df Data frame
+//' @param file Name and path to the \code{.DCB} file.
 //'
 // [[Rcpp::export]]
-void write_dcb(List df, String file_name){
+void write_dcb(List df, String file){
 
     FILE* pFile;
 
     // Get dcb file name
-    std::vector<std::string> file_name_noext = name_split(file_name,'.');
-    std::string dcbfName = file_name_noext[0]+".DCB";
+    std::vector<std::string> file_noext = name_split(file,'.');
+    std::string dcbfName = file_noext[0]+".DCB";
     pFile = fopen(dcbfName.c_str(),"w");
 
     // Get the data frame lists
@@ -121,47 +99,55 @@ void write_dcb(List df, String file_name){
 
     // write to output
     for (int i = 0; i < ncols; i++){
-      if (i == 0) { fprintf(pFile, "\n %d", total_bytes); }
+      if (i == 0) { fprintf(pFile, "\n%d\n", total_bytes); }
 
-      fprintf(pFile, "\n %s", dcb_fieldNames[i].c_str());
-      fprintf(pFile, ", %s", dcb_fieldTypes[i].c_str());
-      fprintf(pFile, ", %d", dcb_position[i]);
-      fprintf(pFile, ", %d", dcb_fieldBytes[i]);
-      fprintf(pFile, ", %d", dcb_decimal[i]);
-      fprintf(pFile, ", %d", dcb_display[i]);
-      fprintf(pFile, ", %s", blank);
-      fprintf(pFile, ", %s", blank);
-      fprintf(pFile, ", %s", blank);
-      fprintf(pFile, ", %s", blank);
-      fprintf(pFile, ", %s", blank);
-      fprintf(pFile, ", %s", blank);
-      fprintf(pFile, ", %s", blank);
+      fprintf(pFile, "%s", dcb_fieldNames[i].c_str());
+      fprintf(pFile, ",%s", dcb_fieldTypes[i].c_str());
+      fprintf(pFile, ",%d", dcb_position[i]);
+      fprintf(pFile, ",%d", dcb_fieldBytes[i]);
+      fprintf(pFile, ",%d", dcb_decimal[i]);
+      fprintf(pFile, ",%d", dcb_display[i]);
+      fprintf(pFile, ",%s", blank);
+      fprintf(pFile, ",%s", blank);
+      fprintf(pFile, ",%s", blank);
+      fprintf(pFile, ",%s", blank);
+      fprintf(pFile, ",%s", blank);
+      fprintf(pFile, ",%s", blank);
+      fprintf(pFile, ",%s\n", blank);
     }
     fclose(pFile);
 }
 
-//' @title write binary file
+//' Write a binary TransCAD file from an R data frame.
+//'
+//' This is a C++ implementation written by Amar Sarvepalli and adapted for
+//' Rcpp by Greg Macfarlane.
+//' @param df List of variables (or a \code{data.frame}) that need to be
+//'   written out to TransCAD.
+//' @param file A character string giving the output file name and path.
+//' @param field_types A character vector giving the data types of each column.
 //' @name write_df_to_binary
-//' @param df DataFrame object
-//' @param file_name output filename
-//' @param field_types datatypes
-//' @details Method to export data from dataframe to binary file. 
-//' @details This exports only 3 datatypes: Character, Integer and Double 
-//' @details Writes the *.dcb file along with *.bin file
-//' @return new_dcb_info_df prints dictionary file to console
+//'
+//' @details Currently this function only exports only 3 datatypes: Character,
+//'   Integer and Double.
 //'
 // [[Rcpp::export]]
-DataFrame write_df_to_binary(List df, String file_name, CharacterVector field_types){
+void write_df_to_binary(
+  List df,
+  String file,
+  CharacterVector field_types){
 
   // Check if n fields match to ftypes
-  if(df.size() != field_types.size()) stop("length of \"field types\" is not same as number of fields in the dataframe");
+  if(df.size() != field_types.size()){
+    throw std::range_error( "length of \"field types\" is not same as number of fields in the dataframe");
+  }
+
   NumericVector nrowcols = getDims(df);
   int nrows = nrowcols[0];
   int ncols= nrowcols[1];
 
   // dcb info fields
   List new_dcb_info;
-  DataFrame new_dcb_info_df;
   CharacterVector dcb_fieldNames = getNames(df);
   CharacterVector dcb_fieldTypes(ncols);
   CharacterVector dcb_blank(ncols);
@@ -171,7 +157,7 @@ DataFrame write_df_to_binary(List df, String file_name, CharacterVector field_ty
   IntegerVector dcb_display(ncols);
 
   FILE* pFile;
-  pFile = fopen(file_name.get_cstring(),"wb");
+  pFile = fopen(file.get_cstring(),"wb");
 
   // write binary data by rows
   for(int r = 0; r < nrows; r++){
@@ -185,6 +171,9 @@ DataFrame write_df_to_binary(List df, String file_name, CharacterVector field_ty
               dcb_decimal[c] = 4; // write a method to check decimals
            }
            double vec_d = as<NumericVector>(df[c])[r];
+           if (NumericVector::is_na(vec_d)) {
+               vec_d = dbl_miss;
+           }
            fwrite((char*)&vec_d,8,1,pFile);
        }
 
@@ -196,24 +185,30 @@ DataFrame write_df_to_binary(List df, String file_name, CharacterVector field_ty
               dcb_decimal[c] = 0;
            }
           int vec_i = as<IntegerVector>(df[c])[r];
+          if (IntegerVector::is_na(vec_i)) {
+              vec_i = long_miss;
+           }
           fwrite((char*)&vec_i,4,1,pFile);
        }
 
        // Character
        if (field_types[c] == "character") {
           std::vector <std::string> vec_c= as<std::vector <std::string> >(df[c]);
+          // Check all elements and get field width
           int col_width = 0;
-         // Check all elements and get field width
-         if (r == 0){
-             for (int i = 0; i < (int)vec_c.size(); i++){
-               if(col_width < get_width(vec_c[i])){ col_width = get_width(vec_c[i]);}
-             }
-             dcb_fieldTypes[c] = "C";
-             dcb_fieldBytes[c] = col_width;
-             dcb_decimal[c] = 0;
+          if (r == 0){
+              for (int i = 0; i < (int)vec_c.size(); i++){
+                  if(col_width < get_width(vec_c[i])){ col_width = get_width(vec_c[i]);}
+              }
+              dcb_fieldTypes[c] = "C";
+              dcb_fieldBytes[c] = col_width;
+              dcb_decimal[c] = 0;
           }
-
-          fwrite(vec_c[r].c_str(),dcb_fieldBytes[c],1,pFile);
+          if (vec_c[r] == "NA"){
+              fwrite("",dcb_fieldBytes[c],1,pFile);
+          } else {
+              fwrite(vec_c[r].c_str(),dcb_fieldBytes[c],1,pFile);
+          }
        }
 
         // write dcb header file
@@ -243,8 +238,7 @@ DataFrame write_df_to_binary(List df, String file_name, CharacterVector field_ty
                                        _["Display.Name"]= dcb_blank
                                       );
               new_dcb_info = dcb_info;
-              write_dcb(new_dcb_info, file_name);
-              new_dcb_info_df = clone(dcb_info);
+              write_dcb(new_dcb_info, file);
             }
         }
 
@@ -252,6 +246,5 @@ DataFrame write_df_to_binary(List df, String file_name, CharacterVector field_ty
   }
 
   fclose(pFile);
-  return new_dcb_info_df;
 }
 

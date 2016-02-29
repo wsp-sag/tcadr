@@ -2,3 +2,4 @@
 .Rhistory
 .RData
 tcadr.Rproj
+*.o
