@@ -77,12 +77,15 @@ List get_df_from_binary(
     // Short fields (integer)
     } else if(type[i] == "S"){
       IntegerVector current_vec(n_rows);
-
+      short x;
+      
       for (int j = 0; j < n_rows; j++){
         line_pos = j * row_length + start[i] - 1;
         bf.seekg(line_pos, ios::beg);
 
-        bf.read((char*)&current_vec[j], 2);
+        // bf.read((char*)&current_vec[j], 2);
+        bf.read((char*)&x, 2);
+        current_vec[j] = x;
         if(current_vec[j] == short_miss){
           current_vec[j] = NA_INTEGER;
         }
@@ -107,12 +110,15 @@ List get_df_from_binary(
     // Float fields (single)
     } else if(type[i] == "F"){
       NumericVector current_vec(n_rows);
-
+      float x;
+      
       for (int j = 0; j < n_rows; j++){
         line_pos = j * row_length + start[i] - 1;
         bf.seekg(line_pos, ios::beg);
 
-        bf.read((char*)&current_vec[j], 4);
+        // bf.read((char*)&current_vec[j], 4);
+        bf.read((char*)&x, 4);
+        current_vec[j] = x;
         if(current_vec[j] == flt_miss){
           current_vec[j] = NA_REAL;
         }
