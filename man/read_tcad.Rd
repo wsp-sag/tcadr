@@ -4,15 +4,12 @@
 \alias{read_tcad}
 \title{Read a TransCAD binary file}
 \usage{
-read_tcad(file, df_only = TRUE, strip_whitespace = TRUE)
+read_tcad(file, strip_whitespace = TRUE)
 }
 \arguments{
 \item{file}{The path and name of the binary data file, e.g.
 \code{data/foo.bin}. The \code{DCB} dictionary file should be in the same
 folder.}
-
-\item{df_only}{Should the function return a `data.frame` or a list with the
-descriptions appended? \code{default = TRUE}}
 
 \item{strip_whitespace}{Should excess whitespace be stripped from character 
 variables? \code{default = TRUE}}

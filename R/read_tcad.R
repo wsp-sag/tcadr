@@ -5,8 +5,6 @@
 #' @param file The path and name of the binary data file, e.g.
 #'   \code{data/foo.bin}. The \code{DCB} dictionary file should be in the same
 #'   folder.
-#' @param df_only Should the function return a `data.frame` or a list with the
-#'   descriptions appended? \code{default = TRUE}
 #' @param strip_whitespace Should excess whitespace be stripped from character 
 #'   variables? \code{default = TRUE}
 #' 
@@ -27,7 +25,7 @@
 #' 
 #' @export
 #'
-read_tcad <- function(file, df_only = TRUE, strip_whitespace = TRUE){
+read_tcad <- function(file, strip_whitespace = TRUE){
 
 
   # Get file string for the DCB file.
@@ -66,21 +64,8 @@ read_tcad <- function(file, df_only = TRUE, strip_whitespace = TRUE){
       data.table::setattr(df[[i]], name = 'label', value = dcb$description[i])
   }
 
+  df
 
-  if(df_only){
-    return(df)
-  } else {
-    object <- list()
-
-    object[["description"]] <- data.frame(
-      name = dcb$name,
-      description = dcb$description
-    )
-
-    object[["df"]] <- df
-  }
-
-  return(object)
 }
 
 
