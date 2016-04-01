@@ -31,4 +31,8 @@ If any variable descriptions are available in the dictionary file,
   then they will be appended to the \code{attr(*, "label")} attribute (and 
   therefore visible in RStudio).
 }
+\examples{
+read_tcad(file.path(system.file("extdata", "TransitR.bin", package = "tcadr")))
+
+}
 

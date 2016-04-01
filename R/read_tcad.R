@@ -1,6 +1,6 @@
-#' @title Read a TransCAD binary file
+#' Read a TransCAD binary file
 #'
-#' @description Read a TransCAD \code{.bin} binary data file into the workspace.
+#' Read a TransCAD \code{.bin} binary data file into the workspace.
 #'
 #' @param file The path and name of the binary data file, e.g.
 #'   \code{data/foo.bin}. The \code{DCB} dictionary file should be in the same
@@ -21,6 +21,11 @@
 #'
 #' @importFrom data.table setattr
 #' @importFrom dplyr data_frame mutate_each_ tbl_df
+#' 
+#' @examples
+#' read_tcad(file.path(system.file("extdata", "TransitR.bin", package = "tcadr")))
+#' 
+#' @export
 #'
 read_tcad <- function(file, df_only = TRUE, strip_whitespace = TRUE){
 
@@ -79,7 +84,7 @@ read_tcad <- function(file, df_only = TRUE, strip_whitespace = TRUE){
 }
 
 
-#' @title Read the TransCAD dictionary file
+#' Read the TransCAD dictionary file
 #'
 #' @description Read the TransCAD \code{.DCB} dictionary file. This is a helper
 #' function and is not normally called by the user directly.
