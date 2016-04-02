@@ -14,12 +14,6 @@ folder.}
 \item{strip_whitespace}{Should excess whitespace be stripped from character 
 variables? \code{default = TRUE}}
 }
-\value{
-If \code{df_only = TRUE}, a \code{tbl_df(data.frame)} object 
-  implementation of the TransCAD data table. If \code{FALSE}, a list with two
-  elements: \code{description} contains any data labels on the dictionary
-  file; \code{df} is the data frame.
-}
 \description{
 Read a TransCAD \code{.bin} binary data file into the workspace.
 }

@@ -12,10 +12,6 @@
 #'   then they will be appended to the \code{attr(*, "label")} attribute (and 
 #'   therefore visible in RStudio).
 #'
-#' @return If \code{df_only = TRUE}, a \code{tbl_df(data.frame)} object 
-#'   implementation of the TransCAD data table. If \code{FALSE}, a list with two
-#'   elements: \code{description} contains any data labels on the dictionary
-#'   file; \code{df} is the data frame.
 #'
 #' @importFrom data.table setattr
 #' @importFrom dplyr data_frame mutate_each_ tbl_df
