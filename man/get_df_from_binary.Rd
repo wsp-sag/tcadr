@@ -30,6 +30,6 @@ by Greg Macfarlane.
 \details{
 All input parameter values are available in the \code{.DCB} file 
   read by \link{read_dcb}. This is an internal function and should not
-  normally be used independent of \link{read_tcad_bin}.
+  normally be used independent of \link{read_tcad}.
 }
 

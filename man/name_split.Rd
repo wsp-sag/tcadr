@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{name_split}
 \alias{name_split}
-\title{parse line by comma deliminated}
+\title{Parse comma-delimited names line}
 \arguments{
 \item{line}{string line separated by delimiter}
 
@@ -10,6 +10,9 @@
 }
 \value{
 fields elements of string line
+}
+\description{
+Parse comma-delimited names line
 }
 \details{
 splits line by ","

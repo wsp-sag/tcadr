@@ -16,7 +16,7 @@
 #' 
 #' @details All input parameter values are available in the \code{.DCB} file 
 #'   read by \link{read_dcb}. This is an internal function and should not
-#'   normally be used independent of \link{read_tcad_bin}.
+#'   normally be used independent of \link{read_tcad}.
 #' 
 #' @return characters in each element of the vector
 #' 
@@ -49,7 +49,8 @@ NULL
 #'
 NULL
 
-#' @title parse line by comma deliminated
+#' Parse comma-delimited names line
+#' 
 #' @name name_split
 #' @details splits line by ","
 #' @param line string line separated by delimiter

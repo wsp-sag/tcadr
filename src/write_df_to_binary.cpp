@@ -41,13 +41,13 @@ CharacterVector getNames(List df){
 //' @return element_width width of the column
 //' @name get_width
 //'
-int get_width(const std::string& s)
-{
+int get_width(const std::string& s) {
     int element_width = 0;
     return element_width = s.end() - s.begin();
 }
 
-//' @title parse line by comma deliminated
+//' Parse comma-delimited names line
+//' 
 //' @name name_split
 //' @details splits line by ","
 //' @param line string line separated by delimiter
