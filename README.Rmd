@@ -1,0 +1,54 @@
+---
+output:
+  md_document:
+    variant: markdown_github
+---
+
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "README-"
+)
+```
+
+tcadr
+==============
+
+[![Build Status](https://travis-ci.org/pbsag/tcadr.svg?branch=master)](https://travis-ci.org/pbsag/tcadr)
+
+This is a library of functions that can be used to read native TransCAD files
+directly into R without intermediate conversion to `.csv` or `.dbf`. Currently 
+the package will read and write binary data tables (including network
+attributes), but I hope to extend the package to cover shape data and networks
+in the future.
+
+Installation
+--------------
+The package is not (yet) on CRAN. The easiest way to install the latest stable
+version is with
+
+```r
+devtools::install_github("pbsag/tcadr")
+```
+    
+Using the [devtools](https://github.com/hadley/devtools) library may require you
+to install `RTools` and `Rccp`, among other things.  
+
+Use
+--------------
+
+```{r example}
+library(tcadr)
+dir("inst/extdata")
+read_tcad("inst/extdata/TransitR.bin")
+
+
+```
+
+
+This package is under active development, and any contribution is welcome.
+
