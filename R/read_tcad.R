@@ -25,7 +25,8 @@ read_tcad <- function(file, strip_whitespace = TRUE){
 
 
   # Get file string for the DCB file.
-  dcb_file <- gsub(".bin", ".DCB", file)
+  dcb_file <- gsub("[.][^.]*$", ".DCB", file)
+  
 
   # Read binary file attributes from DCB file
   row_length <- as.numeric(
