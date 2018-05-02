@@ -17,4 +17,3 @@ Parse comma-delimited names line
 \details{
 splits line by ","
 }
-

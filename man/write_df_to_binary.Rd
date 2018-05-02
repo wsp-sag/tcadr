@@ -22,4 +22,3 @@ Rcpp by Greg Macfarlane.
 Currently this function only exports only 3 datatypes: Character,
   Integer and Double.
 }
-

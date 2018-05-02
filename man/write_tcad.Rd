@@ -22,4 +22,3 @@ Write a TransCAD \code{.bin} binary data file from the workspace.
 \details{
 This version doesn't work well with NA's in the dataframe.
 }
-

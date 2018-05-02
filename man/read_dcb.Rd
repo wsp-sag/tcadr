@@ -19,4 +19,3 @@ and layout of the rows in the binary data.
 Read the TransCAD \code{.DCB} dictionary file. This is a helper
 function and is not normally called by the user directly.
 }
-

@@ -15,4 +15,3 @@ Get the dimensions of a data frame
 \details{
 To get number of dataframe dimensions
 }
-

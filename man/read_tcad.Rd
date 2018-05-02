@@ -26,4 +26,3 @@ If any variable descriptions are available in the dictionary file,
 read_tcad(file.path(system.file("extdata", "TransitR.bin", package = "tcadr")))
 
 }
-
