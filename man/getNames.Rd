@@ -12,4 +12,3 @@ names field names
 \description{
 Get the names of the field headers
 }
-

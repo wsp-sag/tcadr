@@ -15,4 +15,3 @@ a character string with extraneous spaces removed.
 \description{
 Trim all duplicate spaces from a character string.
 }
-

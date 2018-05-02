@@ -14,7 +14,7 @@
 #'
 #'
 #' @importFrom data.table setattr
-#' @importFrom dplyr data_frame mutate_each_ tbl_df
+#' @importFrom dplyr data_frame mutate_at tbl_df
 #' 
 #' @examples
 #' read_tcad(file.path(system.file("extdata", "TransitR.bin", package = "tcadr")))
@@ -25,7 +25,8 @@ read_tcad <- function(file, strip_whitespace = TRUE){
 
 
   # Get file string for the DCB file.
-  dcb_file <- gsub(".bin", ".DCB", file)
+  dcb_file <- gsub("[.][^.]*$", ".DCB", file)
+  
 
   # Read binary file attributes from DCB file
   row_length <- as.numeric(
@@ -49,7 +50,7 @@ read_tcad <- function(file, strip_whitespace = TRUE){
     
     # only trim if character variables exist in the data.
     if(length(character_vars > 0)){
-      df <- dplyr::mutate_each_(df, dplyr::funs(trim), character_vars)
+      df <- dplyr::mutate_at(df, character_vars, dplyr::funs(trim))
     }
     
   }
@@ -73,24 +74,24 @@ read_tcad <- function(file, strip_whitespace = TRUE){
 #' @param dcb_file A character string location of a TransCAD dictionary file
 #' containing information on the layout of the binary data file and its
 #' attribute properties.
+#' 
+#' @importFrom readr read_csv col_character
 #'
 #' @return A \code{data_frame} of the attributes including type, description,
 #' and layout of the rows in the binary data.
 read_dcb <- function(dcb_file){
-
-  # afterwards, the dcb file is just a csv file with the attributes
-  dcb <- read.csv(
-    dcb_file,
-    stringsAsFactors = FALSE,
-    skip = 2,
-    header = FALSE)
 
   # TransCAD can have up to the following items.
   dcb_names <- c(
     "name", "type", "start", "width", "decimals", "d_width", "d_decimals",
     "format", "agg_method", "description", "default", "split_method", "d_name"
   )
-  names(dcb) <- dcb_names[1:length(names(dcb))]
+  
+  # afterwards, the dcb file is just a csv file with the attributes
+  dcb <- readr::read_csv( 
+    dcb_file, skip = 2, col_names = dcb_names,  
+    col_types = list(name = readr::col_character())
+  )
 
   dcb
 }

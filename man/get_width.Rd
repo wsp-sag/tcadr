@@ -12,4 +12,3 @@ element_width width of the column
 \description{
 Get the field width in bytes
 }
-
