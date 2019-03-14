@@ -17,7 +17,7 @@ The package is not (yet) on CRAN. The easiest way to install the latest stable
 version is with
 
 ``` r
-devtools::install_github("pbsag/tcadr")
+devtools::install_github("wsp-sag/tcadr")
 ```
 
 Using the [devtools](https://github.com/hadley/devtools) library may require you
